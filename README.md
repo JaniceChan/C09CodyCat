@@ -36,7 +36,7 @@
 6. **Description of the technology that you will use**
 
   Frontend: HTML, CSS, Javascript, (following RESTful API, CRUD)  
-  Backend: JSON (packages to install include express, body-parser, multer, nedb, cookie-parser, express-validator), Ajax, NeDB
+  Backend: JSON (packages to install include express, body-parser, multer, nedb, express-session, cookie-parser, express-validator), Ajax, NeDB
 
 7. **Description of the technical challenges**
   1. Remember to follow the REST design for frontend

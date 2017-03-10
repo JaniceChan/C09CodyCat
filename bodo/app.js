@@ -105,7 +105,7 @@ var checkPassword = function(user, password){
 
 //serving the frontend from lab7
 app.get('/', function (req, res, next) {
-    if (!req.session.user) return res.redirect('/signin.html');
+    if (!req.session.user) return res.redirect('/index.html');
     return next();
 });
 
@@ -113,19 +113,19 @@ app.get('/', function (req, res, next) {
 app.get('/signout/', function (req, res, next) {
     req.session.destroy(function(err) {
         if (err) return res.status(500).end(err);
-        return res.redirect('/signin.html');
+        return res.redirect('/index.html');
     });
 });
 
 app.use(express.static('frontend'));
 
 app.post('/api/signin/', function (req, res, next) {
-    if (!req.body.username || ! req.body.password) return res.status(400).send("Bad Request");
-    users.findOne({username: req.body.username}, function(err, user){
+    if (!req.body.email || ! req.body.password) return res.status(400).send("Bad Request");
+    users.findOne({email: req.body.email}, function(err, user){
         if (err) return res.status(500).end(err);
         if (!user || !checkPassword(user, req.body.password)) return res.status(401).end("Wrong password");
         req.session.user = user;
-        res.cookie('username', user.username, {secure: true, sameSite: true});
+        res.cookie('email', user.email, {secure: true, sameSite: true});
         return res.json(user);
     });
 });

@@ -1,28 +1,4 @@
-/*
-(function(model){
-    "use strict";
-    //sign in from lab7
-    var showError = function(message){
-        alert(message);
-    };
-    
-    document.getElementById("signin_form").onsubmit = function (e){
-        e.preventDefault();
-        var data = {};
-        data.username = document.getElementById("signin-email").value;
-        data.password = document.getElementById("signin-password").value;
-        if (data.username.length>0 && data.password.length>0){
-            model.signIn(data,function(err,user){
-                if (err) return showError(err);
-                e.target.reset();
-                window.location = '/home.html';
-            });
-        }
-    };
-    
-}(model));
-*/
-jQuery(document).ready(function($){
+jQuery(document).ready(function($model){
 	var $form_modal = $('.cd-user-modal'),
 		$form_login = $form_modal.find('#cd-login'),
 		$form_signup = $form_modal.find('#cd-signup'),
@@ -33,6 +9,38 @@ jQuery(document).ready(function($){
 		$forgot_password_link = $form_login.find('.cd-form-bottom-message a'),
 		$back_to_login_link = $form_forgot_password.find('.cd-form-bottom-message a'),
 		$main_nav = $('.main-nav');
+
+	var showError = function(message){
+        alert(message);
+    };
+    
+    document.getElementById("cd-form-signin").onsubmit = function (e){
+        e.preventDefault();
+        var data = {};
+        data.email = document.getElementById("signin-email").value;
+        data.password = document.getElementById("signin-password").value;
+        if (data.email.length>0 && data.password.length>0){
+            model.signIn(data,function(err,user){
+                if (err) return showError(err);
+                e.target.reset();
+                window.location = '/home.html';
+            });
+        }
+    };
+
+	document.getElementById("cd-form-signup").onsubmit = function (e){
+        e.preventDefault();
+        var data = {};
+        data.username = document.getElementById("signup-username").value;
+        data.email = document.getElementById("signup-email").value;
+        data.password = document.getElementById("signup-password").value;
+        if (data.username.length>0 && data.password.length>0){
+            model.createUser(data,function(err,user){
+                if (err) return showError(err);
+                e.target.reset();
+            });
+        }
+    };
 
 	//open modal
 	$main_nav.on('click', function(event){
@@ -116,6 +124,7 @@ jQuery(document).ready(function($){
 	}
 
 	//REMOVE THIS - it's just to show error messages 
+	/*
 	$form_login.find('input[type="submit"]').on('click', function(event){
 		event.preventDefault();
 		$form_login.find('input[type="email"]').toggleClass('has-error').next('span').toggleClass('is-visible');
@@ -123,7 +132,8 @@ jQuery(document).ready(function($){
 	$form_signup.find('input[type="submit"]').on('click', function(event){
 		event.preventDefault();
 		$form_signup.find('input[type="email"]').toggleClass('has-error').next('span').toggleClass('is-visible');
-	});
+		*/
+	//}(model));
 
 
 	//IE9 placeholder fallback
@@ -169,3 +179,28 @@ jQuery.fn.putCursorAtEnd = function() {
     	}
 	});
 };
+
+/*
+(function(model){
+    "use strict";
+    //sign in from lab7
+    var showError = function(message){
+        alert(message);
+    };
+    
+    document.getElementById("signin_form").onsubmit = function (e){
+        e.preventDefault();
+        var data = {};
+        data.username = document.getElementById("signin-email").value;
+        data.password = document.getElementById("signin-password").value;
+        if (data.username.length>0 && data.password.length>0){
+            model.signIn(data,function(err,user){
+                if (err) return showError(err);
+                e.target.reset();
+                window.location = '/home.html';
+            });
+        }
+    };
+    
+}(model));
+*/

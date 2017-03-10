@@ -90,6 +90,7 @@ var User = function(user){
     var hash = crypto.createHmac('sha512', salt);
     hash.update(user.password);
     this.username = user.username;
+    this.email = user.email;
     this.salt = salt;
     this.saltedHash = hash.digest('base64');
 };

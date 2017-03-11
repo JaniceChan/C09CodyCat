@@ -28,96 +28,6 @@
     <![endif]-->
   </head>
   <body>
-      <div class="cd-user-modal"> <!-- this is the entire modal form, including the background -->
-      <div class="cd-user-modal-container"> <!-- this is the container wrapper -->
-        <ul class="cd-switcher">
-          <li><a href="#0">Sign in</a></li>
-          <li><a href="#0">New account</a></li>
-        </ul>
-
-        <div id="cd-login"> <!-- log in form -->
-          <form class="cd-form">
-            <p class="fieldset">
-              <label class="image-replace cd-email" for="signin-email">E-mail</label>
-              <input class="full-width has-padding has-border" id="signin-email" type="email" placeholder="E-mail">
-              <span class="cd-error-message">Error message here!</span>
-            </p>
-
-            <p class="fieldset">
-              <label class="image-replace cd-password" for="signin-password">Password</label>
-              <input class="full-width has-padding has-border" id="signin-password" type="text"  placeholder="Password">
-              <a href="#0" class="hide-password">Hide</a>
-              <span class="cd-error-message">Error message here!</span>
-            </p>
-
-            <p class="fieldset">
-              <input type="checkbox" id="remember-me" checked>
-              <label for="remember-me">Remember me</label>
-            </p>
-
-            <p class="fieldset">
-              <input class="full-width" type="submit" value="Login">
-            </p>
-          </form>
-          
-          <p class="cd-form-bottom-message"><a href="#0">Forgot your password?</a></p>
-          <!-- <a href="#0" class="cd-close-form">Close</a> -->
-        </div> <!-- cd-login -->
-
-        <div id="cd-signup"> <!-- sign up form -->
-          <form class="cd-form">
-            <p class="fieldset">
-              <label class="image-replace cd-username" for="signup-username">Username</label>
-              <input class="full-width has-padding has-border" id="signup-username" type="text" placeholder="Username">
-              <span class="cd-error-message">Error message here!</span>
-            </p>
-
-            <p class="fieldset">
-              <label class="image-replace cd-email" for="signup-email">E-mail</label>
-              <input class="full-width has-padding has-border" id="signup-email" type="email" placeholder="E-mail">
-              <span class="cd-error-message">Error message here!</span>
-            </p>
-
-            <p class="fieldset">
-              <label class="image-replace cd-password" for="signup-password">Password</label>
-              <input class="full-width has-padding has-border" id="signup-password" type="text"  placeholder="Password">
-              <a href="#0" class="hide-password">Hide</a>
-              <span class="cd-error-message">Error message here!</span>
-            </p>
-
-            <p class="fieldset">
-              <input type="checkbox" id="accept-terms">
-              <label for="accept-terms">I agree to the <a href="#0">Terms</a></label>
-            </p>
-
-            <p class="fieldset">
-              <input class="full-width has-padding" type="submit" value="Create account">
-            </p>
-          </form>
-
-          <!-- <a href="#0" class="cd-close-form">Close</a> -->
-        </div> <!-- cd-signup -->
-
-        <div id="cd-reset-password"> <!-- reset password form -->
-          <p class="cd-form-message">Lost your password? Please enter your email address. You will receive a link to create a new password.</p>
-
-          <form class="cd-form">
-            <p class="fieldset">
-              <label class="image-replace cd-email" for="reset-email">E-mail</label>
-              <input class="full-width has-padding has-border" id="reset-email" type="email" placeholder="E-mail">
-              <span class="cd-error-message">Error message here!</span>
-            </p>
-
-            <p class="fieldset">
-              <input class="full-width has-padding" type="submit" value="Reset password">
-            </p>
-          </form>
-
-          <p class="cd-form-bottom-message"><a href="#0">Back to log-in</a></p>
-        </div> <!-- cd-reset-password -->
-        <a href="#0" class="cd-close-form">Close</a>
-      </div> <!-- cd-user-modal-container -->
-    </div> <!-- cd-user-modal -->
     <!--PRELOADER-->
     <div id="preloader">
       <div id="status">
@@ -138,19 +48,19 @@
       <div class="menu-wrap">
         <nav class="menu">
           <div class="menu-list">
-            <a data-scroll="" href="#home" class="active">
+            <a data-scroll="" href="#graphs" class="active">
               <span>Home</span>
             </a>
-            <a data-scroll="" href="#about">
-              <span>Profile Page</span>
+            <a data-scroll="" href="#search">
+              <span>Search</span>
             </a>
-            <a data-scroll="" href="#work">
-              <span>Upload</span>
+            <a data-scroll="" href="#topRecipes">
+              <span>Top Recipes</span>
             </a>
-             <a data-scroll="" href="#services">
-              <span>My Favourites</span>
-            </a> 
-            <a data-scroll="">
+            <a data-scroll="" href="#contact">
+              <span>Contact</span>
+            </a>
+            <a data-scroll="" href="">
               <span>Logout</span>
             </a>
           </div>
@@ -165,63 +75,76 @@
     </div>
     <!--/.HEADER END-->
     
+
+
     <!--CONTENT WRAP-->
     <div class="content-wrap">
       <!--CONTENT-->
       <div class="content">
-        <!--TESTIMONIAL-->
-        <section id="testimonial">
+      <!--GRAPHS-->
+      <section id="graphs" class="white-bg">
           <div class="container">
-            <div class="row wrap-testimonial">
-              <div class="col-md-10 col-md-offset-1">
-                <div class="owl-carousel">
-                  <div class="list-testimonial">
-                    <div class="content-testimonial">
-                      <h3 class="testi">
-                        “ Reza did a phenominal job setting up my a website for my product He performed the task very quickly and efficiently. We know we have the superior topical pain relief cream on the market and he has helped us communicate that message via the website he built from scratch. Thanks! ”
-                      </h3>
-                      <p class="people">
-                        Darin Cohen - Active10
-                      </p>
-                    </div>
-                  </div>
-                  <div class="list-testimonial">
-                    <div class="content-testimonial">
-                      <h3 class="testi">
-                        “ Another successful project working with Reza. He has great design skills, is very responsive and professional. Looking forward to the next opportunity to work together. ”
-                      </h3>
-                      <p class="people">
-                        Marko Milicevic
-                      </p>
-                    </div>
-                  </div>
-                  <div class="list-testimonial">
-                    <div class="content-testimonial">
-                      <h3 class="testi">
-                        “ Great designer! I like his sense of design, especially the color scheme. Quick turnaround. Look forward to work with him again. Thanks!! ”
-                      </h3>
-                      <p class="people">
-                        JK Thang
-                      </p>
-                    </div>
-                  </div>
-                </div>
+            <div class="row">
+             <!--  <canvas id="myChart" width="400" height="400"></canvas>
+              <script>
+              var ctx = document.getElementById("myChart");
+              var myChart = new Chart(ctx, {
+                  type: 'bar',
+                  data: {
+                      labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+                      datasets: [{
+                          label: '# of Votes',
+                          data: [12, 19, 3, 5, 2, 3],
+                          backgroundColor: [
+                              'rgba(255, 99, 132, 0.2)',
+                              'rgba(54, 162, 235, 0.2)',
+                              'rgba(255, 206, 86, 0.2)',
+                              'rgba(75, 192, 192, 0.2)',
+                              'rgba(153, 102, 255, 0.2)',
+                              'rgba(255, 159, 64, 0.2)'
+                          ],
+                          borderColor: [
+                              'rgba(255,99,132,1)',
+                              'rgba(54, 162, 235, 1)',
+                              'rgba(255, 206, 86, 1)',
+                              'rgba(75, 192, 192, 1)',
+                              'rgba(153, 102, 255, 1)',
+                              'rgba(255, 159, 64, 1)'
+                          ],
+                          borderWidth: 1
+                      }]
+                  },
+                  options: {
+                      scales: {
+                          yAxes: [{
+                              ticks: {
+                                  beginAtZero:true
+                              }
+                          }]
+                      }
+                  }
+              });
+              </script>    -->    
+            </div>
+          </div>
+        </section>      
+        <!--/.GRAPHS END-->
+        <!-- Search recipe-->
+        <section class="white-bg" id="search">
+          <div class="container">
+            <div class="row">
+              <div id="search-recipe-div">
+                <form class="search-recipe-form">
+                <input id="search-recipe-input" type="text" name="search" placeholder="What do you feel like cooking today?">
+                <input class="search-submit" type="submit" value="&#10140;"/>
+                </form>
               </div>
             </div>
           </div>
-          <div class="mask-testimonial"></div>
         </section>
-        <!--/.TESTMONIAL END-->
-        <!-- Search recipe-->
-        <div id="search-recipe-div">
-          <form class="search-recipe-form">
-          <input id="search-recipe-input" type="text" name="search" placeholder="What do you feel like today">
-          <input class="search-submit" type="submit" value="&#10140;"/>
-          </form>
-        </div>
         <!--Search recipe ends-->
         <!--BLOG-->
-        <section class="grey-bg" id="blog">
+        <section class="grey-bg" id="topRecipes">
           <div class="container">
             <div class="row">
               <div class="col-md-12">

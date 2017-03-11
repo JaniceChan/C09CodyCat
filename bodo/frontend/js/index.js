@@ -92,36 +92,6 @@
         loop: true
     });
 
-    //owl carousel
-    $('.owl-carousel').owlCarousel({
-      autoPlay: 3000, //Set AutoPlay to 3 seconds
- 
-      items : 1,
-      itemsDesktop : [1199,1],
-      itemsDesktopSmall : [979,1],
-      itemsTablet : [768,1],
-      itemsMobile : [479,1],
-
-      // CSS Styles
-      baseClass : "owl-carousel",
-      theme : "owl-theme"
-    });
-
-    $('.owl-carousel2').owlCarousel({
-      autoPlay: 3000, //Set AutoPlay to 3 seconds
- 
-      items : 1,
-      itemsDesktop : [1199,1],
-      itemsDesktopSmall : [979,1],
-      itemsTablet : [768,1],
-      itemsMobile : [479,1],
-      autoPlay : false,
-
-      // CSS Styles
-      baseClass : "owl-carousel",
-      theme : "owl-theme"
-    });
-
     //contact
     $('input').blur(function() {
 

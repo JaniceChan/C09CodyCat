@@ -1245,6 +1245,11 @@ ul.portfolio-image li .desc{
 
 
 /*----------------------------------------- 8) Component --------------------------------------------------*/
+#twitter{
+  min-height: 650px;
+  display: inline-block;
+  width: 100%;
+}
 /*---------------- a. Skills ----------------*/
 .skillst {margin-top: 30px;}
 .skillst .skillbar {

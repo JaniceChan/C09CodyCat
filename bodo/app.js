@@ -195,6 +195,7 @@ var Recipe = function(recipe){
     this.pic = recipe.pic;
     this.ings = recipe.ings;
     this.steps = recipe.steps;
+    this.tip = recipe.tip;
     //tags
 }
 
@@ -206,7 +207,7 @@ app.put('/api/recipe/', function(req, res, next) {
             res.status(409).json("Conflict when getting id");
             return next();
         }
-        recipes.insert({_id: id, username:req.username, title:req.title, pic:req.pic, ings:req.ings, intro:req.intro, steps:req.steps}, function(err, doc) {
+        recipes.insert({_id: id, username:req.username, title:req.title, pic:req.pic, ings:req.ings, intro:req.intro, steps:req.steps, tip:req.tip}, function(err, doc) {
             if (err) {
                 res.status(409).json("Error with image db");
                 return next();

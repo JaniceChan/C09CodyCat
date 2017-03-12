@@ -1,5 +1,6 @@
 var path = require('path');
 var express = require('express');
+var nodemailer = require("nodemailer");
 var crypto = require('crypto');
 var bodyParser = require('body-parser');
 var multer  = require('multer');
@@ -19,12 +20,19 @@ app.use(bodyParser.json());
 
 var upload = multer({ dest: 'uploads/' });
 
-
-
 var Datastore = require('nedb'), 
 users = new Datastore({ filename: 'db/users.db', autoload: true, timestampData : true });
 recipes = new Datastore({ filename: 'db/recipes.db', autoload: true, timestampData : true });
-comments = new Datastore({ filename: 'db/comments.db', autoload: true, timestampData : true}),
+comments = new Datastore({ filename: 'db/comments.db', autoload: true, timestampData : true});
+
+var smtpTransport = nodemailer.createTransport({
+    service: "gmail",
+    host: "smtp.gmail.com",
+    auth: {
+        user: "kitchen.kittens.c09@gmail.com",
+        pass: "janice&jiaan"
+    }
+});
 
 app.use(function (req, res, next){
     console.log("HTTP request", req.method, req.url, req.body);
@@ -133,6 +141,23 @@ app.get('/signout/', function (req, res, next) {
 });
 
 app.use(express.static('frontend'));
+
+// send emails to kitchen kitten
+app.get('/send',function(req,res){
+    var mailOptions={
+        to : req.query.to,
+        subject : req.query.subject,
+        text : req.query.text
+    }
+    console.log(mailOptions);
+    smtpTransport.sendMail(mailOptions, function(error, response){
+     if(error){
+        res.end("error");
+     }else{
+        res.end("sent");
+         }
+    });
+});
 
 app.post('/api/signin/', function (req, res, next) {
     if (!req.body.email || ! req.body.password) return res.status(400).send("Bad Request");

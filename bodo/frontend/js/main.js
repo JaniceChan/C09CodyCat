@@ -152,7 +152,7 @@
       }
       // other options
     });
-    
+
     //Skill
     jQuery('.skillbar').each(function() {
       jQuery(this).appear(function() {
@@ -164,7 +164,26 @@
       });
     }); 
 
+    var from,to,subject,text;
+    $("#contact-form").submit(function(e){   
+        e.preventDefault();
+        to="kitchen.kittens.c09@gmail.com";
+        subject=$("#contact-name").val() + " " + $("#contact-subject").val();
+        text=$("#contact-message").val();
+        $("#form-messages").text("Sending E-mail...Please wait");
+        $.get("https://localhost:3000/send",{to:to,subject:subject,text:text},function(data){
+        if(data=="sent")
+        {
+            $("#form-messages").empty().html("Email is been sent at "+to+" . Thank you!");
+            $("#contact-name").val('');
+            $("#contact-subject").val('');
+            $("#contact-message").val('');
+
+        }
+    });
+
   
+  });
   });
   
     
@@ -201,6 +220,9 @@
   //     }
   //   });
   // }
+
+
+
 
 
 

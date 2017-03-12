@@ -224,6 +224,22 @@ img { max-width: 100%; }
   width: 175px;
   display: block;
 }
+
+.upload-nav {
+  position: absolute;
+      top: 15px;
+    right: 90px;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+  width: 175px;
+  display: block;
+
+}
+
+
 .opacity-nav {
   opacity: 0.8;
   z-index: 2;

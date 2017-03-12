@@ -53,8 +53,9 @@ var view = jQuery(document).ready(function(){
 
   document.getElementById("submit-recipe").onclick = function(e){
       e.preventDefault();
+      var data = {};
       var title = document.getElementById("recipe-title-input").value;
-      var pic = document.getElementById("recipe-pic-input").value;
+      var pic = document.getElementById("recipe-pic-input").files[0];
       var intro = document.getElementById("recipe-intro-input").value;
       var ings = [];
       var steps = [];
@@ -64,10 +65,17 @@ var view = jQuery(document).ready(function(){
             var quan = row.cells[1].children[0].value;
             ings.push({ing:ing, quan: quan});
       }
-      console.log(title);
-      console.log(pic);
-      console.log(intro);
-      console.log(ings);
+      data.title = title;
+      data.pic = pic;
+      data.intro = intro;
+      data.ings = ings;
+      data.steps = steps;
+      document.dispatchEvent(new CustomEvent("onRecipeUpload",{detail: data}));
+
+    //   console.log(title);
+    //   console.log(pic);
+    //   console.log(intro);
+    //   console.log(ings);
   }
 
     return view;

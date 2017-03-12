@@ -57,6 +57,29 @@ var model = (function(){
         doAjax('GET', '/api/home/', null, true, callback);
     };
 
+    //store msg locally and notifies the controller with msg attached
+    model.uploadRecipe = function(data, callback){
+        var formdata = new FormData();
+        formdata.append("username", data.username);
+        formdata.append("intro", data.intro);
+        formdata.append("title", data.title);
+        formdata.append("pic", data.pic);
+        formdata.append("ings", data.ings);
+        formdata.append("steps", data.steps);
+        formdata.append("createdAt", data.createdAt);
+        //formdata.append("rating", data.rating);
+        //formdata.append("tags", data.tags);
+        doAjax('PUT', '/api/images/', formdata, false, callback);
+    };
+
+    // model.getImgById = function(user, id, callback){
+    //     doAjax("GET", "/api/users/" + user + "/images/" + id + "/", null , true, callback);
+    // };
+    
+    // model.delImgById = function(id, callback){
+    //     doAjax("DELETE", "/api/images/" + id + "/", null , true, callback);
+    // };
+
     return model;
 
 }());

@@ -19,7 +19,7 @@
     document.addEventListener("loadPage",function(e){
     });
     //reads data from event and call uploadPic
-    document.addEventListener("onFormSubmit", function(e){
+    document.addEventListener("onRecipeUpload", function(e){
         var data = e.detail;
         model.uploadPic(data, function(err, response){
             if(err){

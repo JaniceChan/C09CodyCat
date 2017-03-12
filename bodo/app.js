@@ -23,6 +23,8 @@ var upload = multer({ dest: 'uploads/' });
 
 var Datastore = require('nedb'), 
 users = new Datastore({ filename: 'db/users.db', autoload: true });
+recipes = new Datastore({ filename: 'db/recipes.db', autoload: true });
+comments = new Datastore({ filename: 'db/comments.db', autoload: true}),
 
 app.use(function (req, res, next){
     console.log("HTTP request", req.method, req.url, req.body);
@@ -84,6 +86,19 @@ app.use(function(req, res, next){
     });
 });
 
+//method on stackoverflow to get autoid
+images.insert({_id: '__autoid__'});
+images.getAutoincrementId = function (cb) {
+    this.update(
+        { _id: '__autoid__' },
+        { $inc: { seq: 1 } },
+        { upsert: true, returnUpdatedDocs: true },
+        function (err, affected, autoid) { 
+            cb(err, autoid.seq);
+        }
+    );
+    return this;
+};
 
 var User = function(user){
     var salt = crypto.randomBytes(16).toString('base64');
@@ -146,6 +161,136 @@ app.put('/api/users/', function (req, res, next) {
             return res.json(user);
         });
     });
+});
+
+var Recipe = function(recipe){
+    this.username = recipe.username;
+    this.title = recipe.title;
+    this.pic = recipe.pic;
+    this.ing = recipe.ing;
+    this.steps = recipe.steps;
+}
+
+//upload recipe
+app.put('/api/recipe/', function(req, res, next) {
+    if (!req.session.user) return res.status(403).send("Forbidden");
+    recipes.getAutoincrementId(function(err, id) {
+        if (err) {
+            res.status(409).json("Conflict when getting id");
+            return next();
+        }
+        recipes.insert({_id: id, username:req.username, title:req.title,pic:req.pic, ing:req.ing, steps:req.steps}, function(err, doc) {
+            if (err) {
+                res.status(409).json("Error with image db");
+                return next();
+            }
+        });
+        comments.insert({_id:id, pic_comments:[]}, function(err, doc){
+                if (err) {
+                    res.status(409).json("Error with comments db");
+                    return next();
+                }
+                res.json({id: id});
+                return next();
+            });
+    })
+})
+
+//get recipe by username and id
+//return recipe data
+app.get("/api/users/:username/recipes/:id/", function(req, res, next) {
+    if (!req.session.user) return res.status(403).send("Forbidden");
+    var id = parseInt(req.params.id);
+    var u = req.params.username;
+    if (id){
+        recipes.findOne({_id: id, author: u}, function(err, data){
+           if(err){
+               res.status(404).end("Image with id: " + id + " does not exists");
+               return next();
+           }
+           if (data){
+               res.json({found: true, id: id, message: data});
+               return next();
+           }
+           else{
+               res.json({found: false});
+               return next();
+           } 
+        });
+    }
+    else{
+        res.status(400).json("Your input of id is not valid");
+        return next();
+    }
+});
+//get recipe pic
+app.get("/api/recipes/:id/pic/", function(req, res, next){
+    if (!req.session.user) return res.status(403).send("Forbidden");
+    var id = parseInt(req.params.id);
+    if (id){
+        recipes.findOne({_id: id}, function(err, data){
+            if (err){
+                res.status(409).json("Error in recipes db");
+                return next();
+            }
+            if (data){
+                var pic = data.pic;
+                res.setHeader("Content-Type", data.pic.mimetype);
+                res.sendFile(path.join(__dirname, pic.path));
+                return;
+            }
+            res.status(404).end("pic with id: " + id + " does not exists");
+            return next();
+        });
+    }
+});
+
+//get recipe step pic
+app.get("/api/recipes/:id/step/:number", function(req, res, next){
+    if (!req.session.user) return res.status(403).send("Forbidden");
+    var id = parseInt(req.params.id);
+    var number = parseInt(req.params.number);
+    if (id){
+        recipes.findOne({_id: id}, function(err, data){
+            if (err){
+                res.status(409).json("Error in recipes db");
+                return next();
+            }
+            if (data){
+                var pic = data.steps[number-1].file;
+                res.setHeader("Content-Type", pic.mimetype);
+                res.sendFile(path.join(__dirname, pic.path));
+                return;
+            }
+            res.status(404).end("pic with id: " + id + " does not exists");
+            return next();
+        });
+    }
+});
+
+//delete recipe by id
+//Delete pic
+app.delete("/api/recipes/:id/", function(req, res, next){
+    if (!req.session.user) return res.status(403).send("Forbidden");
+    var id = parseInt(req.params.id);
+    if (id){
+        recipes.remove({_id: id}, function(err, num) {
+            if (err){
+                res.status(409).json("Error in recipes db");
+                return next();
+            }
+            comments.remove({_id:id}, function(err, num){
+                if (err){
+                    res.status(409).json("Error in comments db");
+                    return next();
+                }
+            });
+        });
+    }
+    else{
+        res.status(400).json("Your input of id is invalid");
+        return next();
+    }
 });
 
 app.use(function (req, res, next){

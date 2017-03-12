@@ -57,6 +57,17 @@ var model = (function(){
         doAjax('GET', '/api/home/', null, true, callback);
     };
 
+    // get
+    model.getRecipes = function(searchQuery){
+        doAjax("GET", "/api/home/search?q=" + searchQuery + "/", null, true, function(err, data){
+            if (err) console.error(err);
+            else {
+                document.dispatchEvent(new CustomEvent("buildSearchRecipes", {'detail': data}));
+            }
+        });
+
+    };
+
     return model;
 
 }());

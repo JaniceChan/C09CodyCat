@@ -22,6 +22,9 @@
     <!--fonts google-->
     <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,700' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,500,700' rel='stylesheet' type='text/css'>
+
+    <!--Charts.js-->
+    <script src="js/Chart.min.js" type="text/javascript"></script>
     
     <!--[if lt IE 9]>
        <script type="text/javascript" src="js/html5shiv.min.js"></script>
@@ -82,63 +85,159 @@
       <!--CONTENT-->
       <div class="content">
       <!--GRAPHS-->
-      <section id="graphs" class="white-bg">
+      <section id="graphs" class="grey-bg">
           <div class="container">
             <div class="row">
-             <!--  <canvas id="myChart" width="400" height="400"></canvas>
-              <script>
-              var ctx = document.getElementById("myChart");
-              var myChart = new Chart(ctx, {
-                  type: 'bar',
-                  data: {
-                      labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-                      datasets: [{
-                          label: '# of Votes',
-                          data: [12, 19, 3, 5, 2, 3],
-                          backgroundColor: [
-                              'rgba(255, 99, 132, 0.2)',
-                              'rgba(54, 162, 235, 0.2)',
-                              'rgba(255, 206, 86, 0.2)',
-                              'rgba(75, 192, 192, 0.2)',
-                              'rgba(153, 102, 255, 0.2)',
-                              'rgba(255, 159, 64, 0.2)'
-                          ],
-                          borderColor: [
-                              'rgba(255,99,132,1)',
-                              'rgba(54, 162, 235, 1)',
-                              'rgba(255, 206, 86, 1)',
-                              'rgba(75, 192, 192, 1)',
-                              'rgba(153, 102, 255, 1)',
-                              'rgba(255, 159, 64, 1)'
-                          ],
-                          borderWidth: 1
-                      }]
-                  },
-                  options: {
-                      scales: {
-                          yAxes: [{
-                              ticks: {
-                                  beginAtZero:true
-                              }
-                          }]
-                      }
-                  }
+            <div class="owl-carousel">
+            <div>
+              <h3 class="title-small-center text-center">
+                <span>Your Recipe Activities</span>
+              </h3>
+                <canvas id="myUploads" width="600" height="300"></canvas>
+                <script>
+                var ctx = document.getElementById("myUploads");
+                var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ["Uploads", "Comments", "Favourites"],
+                    datasets: [{
+                        label: "This Week",
+                        data: [12, 19, 3],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)'//,
+                            // 'rgba(75, 192, 192, 0.2)',
+                            // 'rgba(153, 102, 255, 0.2)',
+                            // 'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255,99,132,1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)'//,
+                            // 'rgba(75, 192, 192, 1)',
+                            // 'rgba(153, 102, 255, 1)',
+                            // 'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero:true
+                            }
+                        }]
+                    }
+                }
+            });
+            </script>
+          </div>
+          <div>
+            <h3 class="title-small-center text-center">
+              <span>Your Recipes by Origin</span>
+            </h3>
+            <canvas id="myRecipeOrigin" width="600" height="300"></canvas>
+            <script>
+              var ctx = document.getElementById("myRecipeOrigin");
+              var data = {
+                labels: [
+                    "America",
+                    "France",
+                    "Egypt",
+                    "Japan",
+                    "others"
+                ],
+                datasets: [
+                    {
+                        data: [300, 50, 100, 70, 10],
+                        backgroundColor: [
+                            "#FF6384",
+                            "#36A2EB",
+                            "#FFCE56",
+                            "#56ffb8",
+                            "#c956ff"
+                        ],
+                        hoverBackgroundColor: [
+                            "#FF6384",
+                            "#36A2EB",
+                            "#FFCE56",
+                            "#56ffb8",
+                            "#c956ff"
+                        ]
+                    }]
+              };
+
+              // For a pie chart
+              var myPieChart = new Chart(ctx,{
+                  type: 'pie',
+                  data: data,
               });
-              </script>    -->    
-            </div>
+            </script>
+          </div>
+          <div>
+            <h3 class="title-small-center text-center">
+              <span>Your Recipes by Categories</span>
+            </h3>
+            <canvas id="myRecipeCategories" width="600" height="300"></canvas>
+            <script>
+              var ctx = document.getElementById("myRecipeCategories");
+              var data = {
+                labels: [
+                    "Comfort Food",
+                    "Sweet and Crunchy",
+                    "Energy Salad",
+                    "Soup",
+                    "others"
+                ],
+                datasets: [
+                    {
+                        data: [300, 50, 100, 70, 10],
+                        backgroundColor: [
+                            "#c6a3a3",
+                            "#a3a7c6",
+                            "#a6c6a3",
+                            "#c6c4a3",
+                            "#bba3c6"
+                        ],
+                        hoverBackgroundColor: [
+                            "#c6a3a3",
+                            "#a3a7c6",
+                            "#a6c6a3",
+                            "#c6c4a3",
+                            "#bba3c6"
+                        ]
+                    }]
+              };
+
+              // And for a doughnut chart
+              var myDoughnutChart = new Chart(ctx, {
+                  type: 'doughnut',
+                  data: data,
+              });
+            </script>
+          </div>
+          </div>
+          </div>
           </div>
         </section>      
+
         <!--/.GRAPHS END-->
         <!-- Search recipe-->
         <section class="white-bg" id="search">
           <div class="container">
             <div class="row">
               <div id="search-recipe-div">
-                <form class="search-recipe-form">
+                <form class="search-recipe-form" id="search-recipe-form">
                 <input id="search-recipe-input" type="text" name="search" placeholder="What do you feel like cooking today?">
                 <input class="search-submit" type="submit" value="&#10140;"/>
                 </form>
               </div>
+            </div>
+            <div class="row">
+              <ul class="listing-item" id="search-recipe-results">
+              </ul>
             </div>
           </div>
         </section>
@@ -347,5 +446,10 @@
     <script src="js/view.js" type="text/javascript"></script>
     <script src="js/model.js" type="text/javascript"></script>
     <script src="js/controller.js" type="text/javascript"></script>
+
+    
+<!--     <script src="https://raw.githubusercontent.com/nnnick/Chart.js/master/Chart.min.js" ></script> -->
+<script>
+</script>
   </body>
 </html>

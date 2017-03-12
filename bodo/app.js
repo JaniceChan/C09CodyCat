@@ -22,9 +22,9 @@ var upload = multer({ dest: 'uploads/' });
 
 
 var Datastore = require('nedb'), 
-users = new Datastore({ filename: 'db/users.db', autoload: true });
-recipes = new Datastore({ filename: 'db/recipes.db', autoload: true });
-comments = new Datastore({ filename: 'db/comments.db', autoload: true}),
+users = new Datastore({ filename: 'db/users.db', autoload: true, timestampData : true });
+recipes = new Datastore({ filename: 'db/recipes.db', autoload: true, timestampData : true });
+comments = new Datastore({ filename: 'db/comments.db', autoload: true, timestampData : true}),
 
 app.use(function (req, res, next){
     console.log("HTTP request", req.method, req.url, req.body);
@@ -87,18 +87,18 @@ app.use(function(req, res, next){
 });
 
 //method on stackoverflow to get autoid
-images.insert({_id: '__autoid__'});
-images.getAutoincrementId = function (cb) {
-    this.update(
-        { _id: '__autoid__' },
-        { $inc: { seq: 1 } },
-        { upsert: true, returnUpdatedDocs: true },
-        function (err, affected, autoid) { 
-            cb(err, autoid.seq);
-        }
-    );
-    return this;
-};
+// images.insert({_id: '__autoid__'});
+// images.getAutoincrementId = function (cb) {
+//     this.update(
+//         { _id: '__autoid__' },
+//         { $inc: { seq: 1 } },
+//         { upsert: true, returnUpdatedDocs: true },
+//         function (err, affected, autoid) { 
+//             cb(err, autoid.seq);
+//         }
+//     );
+//     return this;
+// };
 
 var User = function(user){
     var salt = crypto.randomBytes(16).toString('base64');
@@ -169,6 +169,7 @@ var Recipe = function(recipe){
     this.pic = recipe.pic;
     this.ing = recipe.ing;
     this.steps = recipe.steps;
+    //tags
 }
 
 //upload recipe
@@ -291,6 +292,24 @@ app.delete("/api/recipes/:id/", function(req, res, next){
         res.status(400).json("Your input of id is invalid");
         return next();
     }
+});
+
+// search
+app.get("/api/home/search/", function(req, res, next) {
+    var searchStr = req.query.q.slice(0, -1).split(" ").join('|');
+    var regex = new RegExp(searchStr, 'i');
+    //limit to 9
+    var n = 9;
+    recipes.find({title: {"$regex": regex}}).sort({createdAt:-1}).limit(n).exec(function(err, data){
+        if(err){
+            res.status(409).json("Error in recipes db");
+            return next();
+        }
+        return res.json(data);
+    });
+
+
+
 });
 
 app.use(function (req, res, next){

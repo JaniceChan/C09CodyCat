@@ -31,6 +31,19 @@
         
     });
 
+    // search
+
+    document.addEventListener("searchRecipe", function(e){
+        console.log(e);
+        model.getRecipes(e.detail);
+    });
+
+    document.addEventListener("buildSearchRecipes", function(e){
+        console.log(e);
+        view.buildRecipes(e.detail);
+    });
+
+
     
 
 

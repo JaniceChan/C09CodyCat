@@ -26,21 +26,15 @@
         $(this).removeClass('active');
       })
       $(this).addClass('active');
-
-      try {
-        var target = this.hash;
-        $target = $(target);
-        $('html, body').stop().animate({
-          'scrollTop': $target.offset().top+2
-        }, 500, 'swing', function () {
-          window.location.hash = target;
-          $(document).on("scroll", onScroll);
-        });
-      }
-      catch (e) {
-        //pass
-      }
-
+ 
+      var target = this.hash;
+      $target = $(target);
+      $('html, body').stop().animate({
+        'scrollTop': $target.offset().top+2
+      }, 500, 'swing', function () {
+        window.location.hash = target;
+        $(document).on("scroll", onScroll);
+      });
     });
 
     
@@ -104,7 +98,6 @@
     });
 
     //owl carousel
-
     $('.owl-carousel').owlCarousel({
       autoPlay: 3000, //Set AutoPlay to 3 seconds
  
@@ -187,56 +180,20 @@
   window.onload = inits();
 
   //nav-active
-  function onScroll(event){}
-  //   var scrollPosition = $(document).scrollTop();
-  //   $('.menu-list a').each(function () {
-  //     var currentLink = $(this);
-  //     var refElement = $(currentLink.attr("href"));
-  //     if (refElement.position().top <= scrollPosition && refElement.position().top + refElement.height() > scrollPosition) {
-  //       $('.menu-list a').removeClass("active");
-  //       currentLink.addClass("active");
-  //     }
-  //     else{
-  //       currentLink.removeClass("active");
-  //     }
-  //   });
-  // }
-
-// var data = {
-//     labels: ["January", "February", "March", "April", "May", "June", "July"],
-//     datasets: [
-//         {
-//             label: "My First dataset",
-//             fill: false,
-//             lineTension: 0.1,
-//             backgroundColor: "rgba(75,192,192,0.4)",
-//             borderColor: "rgba(75,192,192,1)",
-//             borderCapStyle: 'butt',
-//             borderDash: [],
-//             borderDashOffset: 0.0,
-//             borderJoinStyle: 'miter',
-//             pointBorderColor: "rgba(75,192,192,1)",
-//             pointBackgroundColor: "#fff",
-//             pointBorderWidth: 1,
-//             pointHoverRadius: 5,
-//             pointHoverBackgroundColor: "rgba(75,192,192,1)",
-//             pointHoverBorderColor: "rgba(220,220,220,1)",
-//             pointHoverBorderWidth: 2,
-//             pointRadius: 1,
-//             pointHitRadius: 10,
-//             data: [65, 59, 80, 81, 56, 55, 40],
-//             spanGaps: false,
-//         }
-//     ]
-// };
-
-// var myLineChart = new Chart(ctx, {
-//     type: 'line',
-//     data: data,
-//     options: options
-// });
-
-
+  function onScroll(event){
+    var scrollPosition = $(document).scrollTop();
+    $('.menu-list a').each(function () {
+      var currentLink = $(this);
+      var refElement = $(currentLink.attr("href"));
+      if (refElement.position().top <= scrollPosition && refElement.position().top + refElement.height() > scrollPosition) {
+        $('.menu-list a').removeClass("active");
+        currentLink.addClass("active");
+      }
+      else{
+        currentLink.removeClass("active");
+      }
+    });
+  }
 
   // //sign-in page
   // var signIn = document.getElementById('sign-in-button');

@@ -19,8 +19,7 @@ app.use(bodyParser.json());
 
 var upload = multer({ dest: 'uploads/' });
 
-// Using CommonJS
-var Chart = require('chart.js')
+
 
 var Datastore = require('nedb'), 
 users = new Datastore({ filename: 'db/users.db', autoload: true });

@@ -633,8 +633,6 @@ p {
 
 
 /*----------------------------------------- 7) Sections --------------------------------------------------*/
-
-
 /*---------- a. portfolio -----------*/
 ul.portfolio-image {
   list-style: none;
@@ -1252,21 +1250,6 @@ ul.portfolio-image li .desc{
   display: inline-block;
   width: 100%;
 }
-
-#search {
-  display: flex;
-  align-items: center;
-
-}
-
-.search-recipe-form {
-  width: 100%;
-}
-
-#search-recipe-input {
-  width: 95%;
-}
-
 /*---------------- a. Skills ----------------*/
 .skillst {margin-top: 30px;}
 .skillst .skillbar {

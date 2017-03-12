@@ -1,4 +1,4 @@
-(function(model, view){
+(function(upload_model, upload_view){
     "use strict";
     
     //Get the current id from url
@@ -21,12 +21,24 @@
     //reads data from event and call uploadPic
     document.addEventListener("onRecipeUpload", function(e){
         var data = e.detail;
-        model.uploadPic(data, function(err, response){
+        upload_model.getActiveUsername(function(err, response){
             if(err){
-                console.log(err);
+                alert(err);
+                window.location = "/index.html";
+                return;
             }
-            data._id = JSON.parse(response).id;
-            loadImageId(data._id);
+            if (response){
+                data.username = response;
+                upload_model.uploadRecipe(data, function(err, response){
+                if(err){
+                    alert(err);
+                    window.location = "/index.html";
+                    return;
+                }
+                data._id = JSON.parse(response).id;
+                console.log(data._id);
+                });
+            }
         });
         
     });
@@ -34,4 +46,4 @@
     
 
 
-}(model, view));
+}(upload_model, upload_view));

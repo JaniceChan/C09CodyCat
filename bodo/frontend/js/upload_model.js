@@ -1,4 +1,4 @@
-var model = (function(){
+var upload_model = (function(){
     "use strict";
 
     var doAjax = function (method, url, body, json, callback){
@@ -23,9 +23,9 @@ var model = (function(){
         }
     };
 
-    var model = {};
+    var upload_model = {};
 
-    model.getActiveUsername = function(callback){
+    upload_model.getActiveUsername = function(callback){
         var keyValuePairs = document.cookie.split('; ');
         for(var i in keyValuePairs){
             var keyValue = keyValuePairs[i].split('=');
@@ -36,11 +36,11 @@ var model = (function(){
     
     // signUp, signIn and signOut
     
-    model.signOut = function(callback){
+    upload_model.signOut = function(callback){
         doAjax('GET', '/signout/', null, false, callback);
     };
     
-    model.signIn = function(data, callback){
+    upload_model.signIn = function(data, callback){
         doAjax('POST', '/api/signin/', data, true, function(err, user){
             if (err) return callback(err, user);
             callback(null, user);
@@ -49,16 +49,16 @@ var model = (function(){
     
    // create
     
-    model.createUser = function(data, callback){
+    upload_model.createUser = function(data, callback){
         doAjax('PUT', '/api/users/', data, true, callback);
     };
 
-    model.getGalleries = function(user, callback){
+    upload_model.getGalleries = function(user, callback){
         doAjax('GET', '/api/home/', null, true, callback);
     };
 
     //store msg locally and notifies the controller with msg attached
-    model.uploadRecipe = function(data, callback){
+    upload_model.uploadRecipe = function(data, callback){
         var formdata = new FormData();
         formdata.append("username", data.username);
         formdata.append("intro", data.intro);
@@ -66,20 +66,20 @@ var model = (function(){
         formdata.append("pic", data.pic);
         formdata.append("ings", data.ings);
         formdata.append("steps", data.steps);
-        formdata.append("createdAt", data.createdAt);
+        //formdata.append("tip", data.tip);
         //formdata.append("rating", data.rating);
         //formdata.append("tags", data.tags);
-        doAjax('PUT', '/api/images/', formdata, false, callback);
+        doAjax('PUT', '/api/recipe/', formdata, false, callback);
     };
 
-    // model.getImgById = function(user, id, callback){
+    // upload_model.getImgById = function(user, id, callback){
     //     doAjax("GET", "/api/users/" + user + "/images/" + id + "/", null , true, callback);
     // };
     
-    // model.delImgById = function(id, callback){
+    // upload_model.delImgById = function(id, callback){
     //     doAjax("DELETE", "/api/images/" + id + "/", null , true, callback);
     // };
 
-    return model;
+    return upload_model;
 
 }());

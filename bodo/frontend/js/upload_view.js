@@ -1,5 +1,5 @@
 /*jshint esversion: 6 */
-var view = jQuery(document).ready(function(){
+var upload_view = jQuery(document).ready(function(){
     "use strict";
 
     window.onload = function(e) {
@@ -59,24 +59,36 @@ var view = jQuery(document).ready(function(){
       var intro = document.getElementById("recipe-intro-input").value;
       var ings = [];
       var steps = [];
-      var table = document.getElementById("ing-table");
-      for (var i = 0, row; row = table.rows[i]; i++) {
+      var tip = document.getElementById("add-tip-input").value;
+      //get ingredients and append to ings array
+      var ing_table = document.getElementById("ing-table");
+      for (var i = 0, row; row = ing_table.rows[i]; i++) {
             var ing = row.cells[0].children[0].value;
             var quan = row.cells[1].children[0].value;
             ings.push({ing:ing, quan: quan});
+      }
+      //get steps and append to steps array
+      var pics = document.getElementById("step-pics").files;
+      //console.log(pics);
+      var step_table = document.getElementById("step-table");
+      for (var i = 0, row; row = step_table.rows[i]; i++) {
+            var s = row.cells[0].children[0].value;
+            if (i < pics.length) {
+                steps.push({text:s, pics:pics[i]});
+            }
+            else {
+                steps.push({text:s, pics: null});
+            }
       }
       data.title = title;
       data.pic = pic;
       data.intro = intro;
       data.ings = ings;
       data.steps = steps;
+      data.tip = tip;
       document.dispatchEvent(new CustomEvent("onRecipeUpload",{detail: data}));
 
-    //   console.log(title);
-    //   console.log(pic);
-    //   console.log(intro);
-    //   console.log(ings);
   }
 
-    return view;
+    return upload_view;
 }());

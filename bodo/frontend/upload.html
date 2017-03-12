@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Kitchen Kittens - Book of Recipes</title>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <meta content="Kitchen Kittens - Book of Recipes" name="Providing a collection of recipes for users to browse & upload.">
+    <meta content="CSCC09 Project" name="Janice Chan & Jiaan Li">
+    <!--Fav-->
+    <link href="images/kitchen-kittens.png" rel="shortcut icon">
+    
+    <!--styles-->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/owl.carousel.css" rel="stylesheet">
+    <link href="css/owl.theme.css" rel="stylesheet">
+    <link href="css/magnific-popup.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/responsive.css" rel="stylesheet">
+    <link href="css/signin.css" rel="stylesheet">
+    
+    <!--fonts google-->
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,500,700' rel='stylesheet' type='text/css'>
+    
+    <!--[if lt IE 9]>
+       <script type="text/javascript" src="js/html5shiv.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+      <h1 class="recipe-title">
+        <div id="recipe-title-div">
+          <input id="recipe-title-input" type="text" placeholder="Add your recipe title">
+        </div>
+      </h1>
+      <div id="recipe-pic" style="width:150px; height: 150ox; text-align: center">
+        Add a recipe picture
+        <img id="preview" alt="your image" width="100%" height="100%" />
+        <input id="recipe-pic-input" type="file" style="opacity: 0.0; position: absolute; top: 0; left: 0; bottom: 0; right: 0; width: 150px; height:150px;"
+        onchange="document.getElementById('preview').src = window.URL.createObjectURL(this.files[0])" />
+      </div>
+      <h2>
+        Introduction
+      </h2>
+      <div id="recipe-intro-div">
+        <input id="recipe-intro-input" type="text" placeholder="Add your recipe Introduction">
+      </div>
+      <h2>
+        Ingredients
+      </h2>
+      <div id="ing-div" class="ings">
+        <table id="ing-table">
+      <tr>
+          <td>
+            <input type="text" class="ing" placeholder="Ingredient"/>
+          </td>
+          <td>
+            <input type="text" class="quantity" placeholder="quantity"/>
+        </td>
+          <td>
+            <input type="button" value="Delete" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <input type="text" class="ing" placeholder="Ingredient" />
+        </td>
+        <td>
+            <input type="text" class="quantity" placeholder="quantity"/>
+        </td>
+        <td>
+            <input type="button" value="Delete" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <input type="text" class="ing" placeholder="Ingredient" />
+        </td>
+        <td>
+            <input type="text" class="quantity" placeholder="quantity"/>
+        </td>
+        <td>
+            <input type="button" value="Delete" />
+        </td>
+    </tr>
+  </table>
+  <p>
+      <input type="button" value="Insert row">
+  </p>
+      <h2>Steps</h2>
+      <div class="steps">
+            <ol>
+                <li class="step container">
+                    <div class="text">
+                        <div type="textarea"></div>
+                    </div>
+                    <div class="remove float-right" title="remove step" >
+                        Remove step
+                    </div>
+                    <div class="upload-box">
+                        <div class="upload-widget">
+                            <div class="upload">
+                              <span class="upload-text">
+                                <span class="main-title">upload a step picture</span><br>
+                                <span class="sub-title">Best size：1280 × 1024</span>
+                              </span>
+                            </div>
+                            <input class="hidden" name="ident" />
+                            <input name="picurl" class="hidden" />
+                        </div>
+                    </div>
+                </li>
+            </ol>
+        </div>
+        <div class="add-tip-div">
+            <h2>Tips</h2>
+            <input id="add-tip-input" type="text" placeholder="Add your tip for recipe">
+        </div>
+    </div>
+    <div id="createRecipeEnd"></div>
+    <div class="transparent-bg recipe-edit-actions">
+        <input type="submit" value="post the recipe" class="button" ng-disabled="publishPending" ng-click="publish(false, $event)" data-url="/recipe/create_one/"/>
+    </div>
+
+        <!--FOOTER-->
+        <footer>
+          <div class="footer-bottom">
+            <div class="container">
+              <div class="row">
+                <img src="images/logo-bottom.png" alt="logo bottom" class="center-block" />
+              </div>
+            </div>
+          </div>
+        </footer>
+        <!--/.FOOTER-END-->
+
+      <!--/.CONTENT END-->
+      </div>
+    <!--/.CONTENT-WRAP END-->
+    </div>
+    <script src="js/jquery-1.9.1.min.js" type="text/javascript"></script>
+    <script src="js/upload-view.js" type="text/javascript"></script>
+    <script src="js/upload-model.js" type="text/javascript"></script>
+    <script src="js/upload-controller.js" type="text/javascript"></script>
+  </body>
+</html>

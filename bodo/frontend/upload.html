@@ -52,10 +52,10 @@
         <table id="ing-table">
       <tr>
           <td>
-            <input type="text" class="ing" placeholder="Ingredient"/>
+            <input type="text" class="ing" placeholder="Ingredient" required/>
           </td>
           <td>
-            <input type="text" class="quantity" placeholder="quantity"/>
+            <input type="text" class="quantity" placeholder="quantity" required/>
         </td>
           <td>
             <input type="button" value="Delete" />
@@ -63,10 +63,10 @@
     </tr>
     <tr>
         <td>
-            <input type="text" class="ing" placeholder="Ingredient" />
+            <input type="text" class="ing" placeholder="Ingredient" required />
         </td>
         <td>
-            <input type="text" class="quantity" placeholder="quantity"/>
+            <input type="text" class="quantity" placeholder="quantity" required/>
         </td>
         <td>
             <input type="button" value="Delete" />
@@ -74,10 +74,10 @@
     </tr>
     <tr>
         <td>
-            <input type="text" class="ing" placeholder="Ingredient" />
+            <input type="text" class="ing" placeholder="Ingredient" required/>
         </td>
         <td>
-            <input type="text" class="quantity" placeholder="quantity"/>
+            <input type="text" class="quantity" placeholder="quantity" required/>
         </td>
         <td>
             <input type="button" value="Delete" />
@@ -85,32 +85,43 @@
     </tr>
   </table>
   <p>
-      <input type="button" value="Insert row">
+      <input id="add-ing" type="button" value="Add ingredient">
   </p>
       <h2>Steps</h2>
+      <div>
+          <input type="file" id="step-pics" name="files[]" multiple />
+          <output id="preview-steps"></output>
+      </div>
       <div class="steps">
-            <ol>
-                <li class="step container">
-                    <div class="text">
-                        <div type="textarea"></div>
-                    </div>
-                    <div class="remove float-right" title="remove step" >
-                        Remove step
-                    </div>
-                    <div class="upload-box">
-                        <div class="upload-widget">
-                            <div class="upload">
-                              <span class="upload-text">
-                                <span class="main-title">upload a step picture</span><br>
-                                <span class="sub-title">Best size：1280 × 1024</span>
-                              </span>
-                            </div>
-                            <input class="hidden" name="ident" />
-                            <input name="picurl" class="hidden" />
-                        </div>
-                    </div>
-                </li>
-            </ol>
+            <table id="step-table">
+      <tr>
+          <td>
+            <input type="textarea" class="step" placeholder="Step" required/>
+          </td>
+          <td>
+            <input type="button" value="Delete" />
+        </td>
+    </tr>
+    <tr>
+          <td>
+            <input type="textarea" class="step" placeholder="Step" required/>
+          </td>
+          <td>
+            <input type="button" value="Delete" />
+        </td>
+    </tr>
+    <tr>
+          <td>
+            <input type="textarea" class="step" placeholder="Step" required/>
+          </td>
+          <td>
+            <input type="button" value="Delete" />
+        </td>
+    </tr>
+  </table>
+  <p>
+      <input id="add-step" type="button" value="Add step">
+  </p>
         </div>
         <div class="add-tip-div">
             <h2>Tips</h2>
@@ -118,8 +129,8 @@
         </div>
     </div>
     <div id="createRecipeEnd"></div>
-    <div class="transparent-bg recipe-edit-actions">
-        <input type="submit" value="post the recipe" class="button" ng-disabled="publishPending" ng-click="publish(false, $event)" data-url="/recipe/create_one/"/>
+    <div id="submit-recipe-div">
+        <input id="submit-recipe" type="submit" value="post the recipe" class="button" />
     </div>
 
         <!--FOOTER-->

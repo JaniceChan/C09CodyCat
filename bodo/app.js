@@ -87,18 +87,18 @@ app.use(function(req, res, next){
 });
 
 //method on stackoverflow to get autoid
-// images.insert({_id: '__autoid__'});
-// images.getAutoincrementId = function (cb) {
-//     this.update(
-//         { _id: '__autoid__' },
-//         { $inc: { seq: 1 } },
-//         { upsert: true, returnUpdatedDocs: true },
-//         function (err, affected, autoid) { 
-//             cb(err, autoid.seq);
-//         }
-//     );
-//     return this;
-// };
+recipes.insert({_id: '__autoid__'});
+recipes.getAutoincrementId = function (cb) {
+    this.update(
+        { _id: '__autoid__' },
+        { $inc: { seq: 1 } },
+        { upsert: true, returnUpdatedDocs: true },
+        function (err, affected, autoid) { 
+            cb(err, autoid.seq);
+        }
+    );
+    return this;
+};
 
 var User = function(user){
     var salt = crypto.randomBytes(16).toString('base64');

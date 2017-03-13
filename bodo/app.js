@@ -141,7 +141,7 @@ app.get('/home.html', function (req, res, next) {
 });
 
 
-app.get('/signout/', function (req, res, next) {
+app.get('/logout/', function (req, res, next) {
     req.session.destroy(function(err) {
         if (err) return res.status(500).end(err);
         return res.redirect('/index.html');
@@ -163,6 +163,7 @@ app.get("/profile/setup", function (req, res, next) {
     });
 
 });
+
 
 
 // send emails to kitchen kitten

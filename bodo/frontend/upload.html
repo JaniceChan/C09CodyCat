@@ -11,13 +11,7 @@
     <link href="images/kitchen-kittens.png" rel="shortcut icon">
     
     <!--styles-->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/owl.carousel.css" rel="stylesheet">
-    <link href="css/owl.theme.css" rel="stylesheet">
-    <link href="css/magnific-popup.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
-    <link href="css/responsive.css" rel="stylesheet">
-    <link href="css/signin.css" rel="stylesheet">
+    <link href="css/upload.css" rel="stylesheet">
     
     <!--fonts google-->
     <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,700' rel='stylesheet' type='text/css'>
@@ -28,22 +22,22 @@
     <![endif]-->
   </head>
   <body>
-      <h1 class="recipe-title">
         <div id="recipe-title-div">
+          <h1 class="recipe-title">
+        Recipe name
+        </h1>
           <input id="recipe-title-input" type="text" placeholder="Add your recipe title">
         </div>
-      </h1>
-      <div id="recipe-pic" style="width:150px; height: 150ox; text-align: center">
-        Add a recipe picture
-        <img id="preview" alt="your image" width="100%" height="100%" />
-        <input id="recipe-pic-input" type="file" style="opacity: 0.0; position: absolute; top: 0; left: 0; bottom: 0; right: 0; width: 150px; height:150px;"
-        onchange="document.getElementById('preview').src = window.URL.createObjectURL(this.files[0])" />
+      <div id="recipe-pic">
+        <h2>Add a recipe photo</h2>
+        <img id="preview" alt="+ Your image" />
+        <input id="recipe-pic-input" type="file" onchange="document.getElementById('preview').src = window.URL.createObjectURL(this.files[0])" />
       </div>
       <h2>
         Introduction
       </h2>
       <div id="recipe-intro-div">
-        <input id="recipe-intro-input" type="text" placeholder="Add your recipe Introduction">
+        <input id="recipe-intro-input" type="textarea" placeholder="Add your recipe Introduction">
       </div>
       <h2>
         Ingredients
@@ -125,7 +119,7 @@
         </div>
         <div class="add-tip-div">
             <h2>Tips</h2>
-            <input id="add-tip-input" type="text" placeholder="Add your tip for recipe">
+            <input id="add-tip-input" type="textarea" placeholder="Add your tip for recipe">
         </div>
     </div>
     <div id="createRecipeEnd"></div>

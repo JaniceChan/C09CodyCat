@@ -62,9 +62,9 @@ app.use(expressValidator({
 app.use(function(req, res, next){
     Object.keys(req.body).forEach(function(arg){
         switch(arg){
-            case 'username':
-                req.checkBody(arg, 'invalid username').isAlpha();
-                break;
+            // case 'username':
+            //     req.checkBody(arg, 'invalid username').isAlpha();
+            //     break;
             case 'password':
                 break;
         }
@@ -74,9 +74,9 @@ app.use(function(req, res, next){
             case 'id':
                 req.checkParams(arg, 'invalid id').isInt();
                 break;
-            case 'username':
-                req.checkParams(arg, 'invalid username').isAlpha();
-                break;
+            // case 'username':
+            //     req.checkParams(arg, 'invalid username').isAlpha();
+            //     break;
         }
     });
     req.getValidationResult().then(function(result) {
@@ -222,11 +222,15 @@ app.put('/api/recipe/', function(req, res, next) {
             res.status(409).json("Conflict when getting id");
             return next();
         }
-        recipes.insert({_id: id, username:req.username, title:req.title, pic:req.pic, ings:req.ings, intro:req.intro, steps:req.steps, tip:req.tip}, function(err, doc) {
+        var data = req.body;
+        // console.log(req.body.username);
+        // console.log(req.body.title);
+        recipes.insert({_id: id, username:data.username, title:data.title, pic:data.pic, ings:data.ings, intro:data.intro, steps:data.steps, tip:data.tip}, function(err, doc) {
             if (err) {
                 res.status(409).json("Error with image db");
                 return next();
             }
+            res.json({id: id});
         });
         // comments.insert({_id:id, pic_comments:[]}, function(err, doc){
         //         if (err) {

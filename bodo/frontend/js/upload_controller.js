@@ -21,6 +21,7 @@
     //reads data from event and call uploadPic
     document.addEventListener("onRecipeUpload", function(e){
         var data = e.detail;
+        console.log(data);
         upload_model.getActiveUsername(function(err, response){
             if(err){
                 alert(err);
@@ -35,7 +36,7 @@
                     window.location = "/index.html";
                     return;
                 }
-                data._id = JSON.parse(response).id;
+                data._id = JSON.parse(response.id);
                 console.log(data._id);
                 });
             }

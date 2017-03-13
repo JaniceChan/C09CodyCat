@@ -1,14 +1,13 @@
-{"_id":1,"createdAt":{"$$date":1489359818496},"updatedAt":{"$$date":1489359818496}}
-{"_id":2,"createdAt":{"$$date":1489364803475},"updatedAt":{"$$date":1489364803475}}
-{"username":"janice","title":"Cheese Crackers","_id":"10","createdAt":{"$$date":1488153445600},"updatedAt":{"$$date":1488153445600}}
-{"username":"janice","title":"Cheese Crackers","_id":"11","createdAt":{"$$date":1488153445600},"updatedAt":{"$$date":1488153445600}}
-{"username":"janice","title":"Cheese Crackers","_id":"12","createdAt":{"$$date":1488153445600},"updatedAt":{"$$date":1488153445600}}
+{"_id":5,"createdAt":{"$$date":1489374829642},"updatedAt":{"$$date":1489374829642}}
+{"_id":6,"createdAt":{"$$date":1489374999318},"updatedAt":{"$$date":1489374999318}}
+{"_id":7,"createdAt":{"$$date":1489375168175},"updatedAt":{"$$date":1489375168175}}
+{"_id":8,"createdAt":{"$$date":1489375362810},"updatedAt":{"$$date":1489375362810}}
+{"_id":9,"createdAt":{"$$date":1489375560828},"updatedAt":{"$$date":1489375560828}}
+{"_id":10,"createdAt":{"$$date":1489375803342},"updatedAt":{"$$date":1489375803342}}
+{"_id":11,"createdAt":{"$$date":1489375890653},"updatedAt":{"$$date":1489375890653}}
+{"_id":12,"createdAt":{"$$date":1489376037825},"updatedAt":{"$$date":1489376037825}}
 {"username":"janice","title":"Cheese Crackers","_id":"13","createdAt":{"$$date":1488153445600},"updatedAt":{"$$date":1488153445600}}
-{"username":"janice","title":"Chocolate","_id":"3","createdAt":{"$$date":1488153445500},"updatedAt":{"$$date":1488153445500}}
 {"username":"janice","title":"Cheese Crackers","_id":"4","createdAt":{"$$date":1488153445600},"updatedAt":{"$$date":1488153445600}}
-{"username":"janice","title":"Cheese Crackers","_id":"5","createdAt":{"$$date":1488153445600},"updatedAt":{"$$date":1488153445600}}
-{"username":"janice","title":"Cheese Crackers","_id":"6","createdAt":{"$$date":1488153445600},"updatedAt":{"$$date":1488153445600}}
-{"username":"janice","title":"Cheese Crackers","_id":"7","createdAt":{"$$date":1488153445600},"updatedAt":{"$$date":1488153445600}}
-{"username":"janice","title":"Cheese Crackers","_id":"8","createdAt":{"$$date":1488153445600},"updatedAt":{"$$date":1488153445600}}
-{"username":"janice","title":"Cheese Crackers","_id":"9","createdAt":{"$$date":1488153445600},"updatedAt":{"$$date":1488153445600}}
-{"_id":"__autoid__","seq":2,"updatedAt":{"$$date":1489364803469}}
+{"_id":"__autoid__","seq":12,"updatedAt":{"$$date":1489376037775}}
+{"_id":"__autoid__","seq":13,"updatedAt":{"$$date":1489376191024}}
+{"_id":13,"username":"janice.jayne.chan%40gmail.com","title":"title","pic":{},"ings":[{"ing":"egg","quan":"1"}],"intro":"intro","steps":[{"text":"s1","pics":{}},{"text":"s2","pics":{}}],"tip":"tips","createdAt":{"$$date":1489376191059},"updatedAt":{"$$date":1489376191059}}

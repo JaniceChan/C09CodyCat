@@ -42,8 +42,7 @@
       $.get("https://localhost:3000/profile/setup",function(data){
         $("#name").html(data.username);
         $("#email").html(data.email);
-        console.log(data.phone);
-        console.log(data.address);
+
         if(data.phone != null) {
           $("#phone").empty();
           $("#phone").html(data.phone);
@@ -51,6 +50,9 @@
         if(data.address != null) {
           $("#address").empty();
           $("#address").html(data.address);
+        }
+        if(data.image != null) {
+          $("#user-image").attr("src", data.imageUrl);
         }
         //get user's favourites and uploads
       });
@@ -79,6 +81,28 @@
     });
 
   });
+
+  $("#profile-pic").submit(function(e){
+    e.preventDefault();
+    var imageForm = new FormData();
+    var img = $("#upload_form_img_file")[0].files[0];
+    imageForm.append("image", img);
+    doAjax('POST', '/profile/image', imageForm, false, function(err, data){
+      if (err) console.error(err);
+      else  {
+        $.get("https://localhost:3000/profile/setup",function(data){
+          if(data.image != null) {
+            $("#user-image").attr("src", data.imageUrl);
+          }
+        });
+      }   
+    });
+
+    e.target.reset();
+
+
+  });
+
 
 
   // $(document).ready(function(){  

@@ -185,6 +185,24 @@ app.post('/api/signin/', function (req, res, next) {
     });
 });
 
+app.post('/profile/image', upload.single('image'), function (req, res, next) {
+    var imageUrl = '/api/images/' + req.session.user.username;
+    users.update({ email: req.session.user.email }, { $set: { "image": req.file } }, {}, function (e2, numReplaced) {});
+    users.update({ email: req.session.user.email }, { $set: { "imageUrl": imageUrl } }, {}, function (e2, numReplaced) {});
+    return next();
+});
+
+app.get('/api/images/:username', function (req, res, next) {
+    users.findOne({username: req.params.username }, function(err, data) {
+        if (err) return res.status(404).end("Image:" + req.body.username + " does not exists");
+        // console.log(data);
+        res.setHeader('Content-Type', data.image.mimetype);
+        return res.sendFile(path.join(__dirname, data.image.path));
+    });
+
+});
+
+
 //Get the list of users in db
 app.get('/api/home/', function (req, res, next) {
     //Load user home page after signing in

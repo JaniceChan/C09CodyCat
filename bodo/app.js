@@ -67,21 +67,12 @@ app.use(function(req, res, next){
                 break;
             case 'password':
                 break;
-            case 'content':
-                req.sanitizeBody(arg).escape();
-                break;
-            case 'action':
-                req.checkBody(arg, 'invalid action').isAction();
-                break;
         }
     });
     Object.keys(req.params).forEach(function(arg) {
         switch(arg) {
             case 'id':
                 req.checkParams(arg, 'invalid id').isInt();
-                break;
-            case 'pic_id':
-                req.checkParams(arg, 'invalid pic_id').isInt();
                 break;
             case 'username':
                 req.checkParams(arg, 'invalid username').isAlpha();

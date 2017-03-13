@@ -116,6 +116,9 @@ var User = function(user){
     this.email = user.email;
     this.salt = salt;
     this.saltedHash = hash.digest('base64');
+    this.phone;
+    this.address;
+    this.image;
 };
 
 var checkPassword = function(user, password){
@@ -132,6 +135,11 @@ app.get('/', function (req, res, next) {
     return next();
 });
 
+app.get('/home.html', function (req, res, next) {
+    if (!req.session.user) return res.redirect('/index.html');
+    return next();
+});
+
 
 app.get('/signout/', function (req, res, next) {
     req.session.destroy(function(err) {
@@ -141,6 +149,21 @@ app.get('/signout/', function (req, res, next) {
 });
 
 app.use(express.static('frontend'));
+
+
+app.get('/profile.html', function (req, res, next) {
+    if (!req.session.user) return res.redirect('/index.html');
+    return next();
+});
+
+app.get("/profile/setup", function (req, res, next) {
+    users.findOne({email: req.session.user.email}, function(err, user){
+        if (err) return res.status(500).end(err);
+        return res.json(user);
+    });
+
+});
+
 
 // send emails to kitchen kitten
 app.get('/send',function(req,res){
@@ -213,14 +236,14 @@ app.put('/api/recipe/', function(req, res, next) {
                 return next();
             }
         });
-        comments.insert({_id:id, pic_comments:[]}, function(err, doc){
-                if (err) {
-                    res.status(409).json("Error with comments db");
-                    return next();
-                }
-                res.json({id: id});
-                return next();
-            });
+        // comments.insert({_id:id, pic_comments:[]}, function(err, doc){
+        //         if (err) {
+        //             res.status(409).json("Error with comments db");
+        //             return next();
+        //         }
+        //         res.json({id: id});
+        //         return next();
+        //     });
     })
 })
 
@@ -336,6 +359,22 @@ app.get("/api/home/search/", function(req, res, next) {
     });
 
 
+
+});
+
+//update
+
+app.patch('/profile/setup/phone/:phoneNum', function (req, res, next) {
+    var newPhone = req.params.phoneNum;
+    users.update({ email: req.session.user.email }, { $set: { "phone": newPhone } }, {}, function (e2, numReplaced) {});
+    return next();
+
+});
+
+app.patch('/profile/setup/address/:addr', function (req, res, next) {
+    var newAddr = req.params.addr;
+    users.update({ email: req.session.user.email }, { $set: { "address": newAddr } }, {}, function (e2, numReplaced) {});
+    return next();
 
 });
 

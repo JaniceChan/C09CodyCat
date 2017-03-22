@@ -1288,6 +1288,58 @@ ul.portfolio-image li .desc{
 
 }
 
+.recipe-subtitle {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  text-decoration: bold;
+}
+
+.recipe-item {
+    vertical-align: top;
+    display: inline-block;
+    text-align: center;
+    width: 120px;
+}
+.caption {
+    display: block;
+}
+
+.recipe-item #recipe-rating {
+  width: 70px;
+  height: 70px;
+
+}
+.recipe-item #recipe-ready {
+  width: 70px;
+  height: 70px;
+
+}
+.recipe-item #recipe-tags {
+  width: 70px;
+  height: 70px;
+
+}
+
+#recipe-pic {
+  content: url("../images/imageupload.png");
+  max-width: 60%;
+  max-height: 60%;
+
+/*  -webkit-transition: all 0.35s ease;
+  transition: all 0.35s ease;
+  position: absolute;
+  z-index: 0;*/
+}
+
+.center-div
+{
+  display:block;
+  margin: 0 auto;
+/*  width: 100px;
+  height: 100px;*/
+}
+
 .search-recipe-form {
   width: 100%;
 }

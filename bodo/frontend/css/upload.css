@@ -29,6 +29,16 @@ body {
     border-radius: 5px;
 }
 
+#recipe-intro-input {
+  height: 100px;
+  width: 750px;
+}
+
+#add-tip-input {
+  height: 100px;
+  width: 750px;
+}
+
 .ing {
   height:15px;
   width: 150px;

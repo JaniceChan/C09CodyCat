@@ -233,15 +233,18 @@ var Recipe = function(recipe){
 }
 
 //upload recipe
-app.put('/api/recipe/', function(req, res, next) {
+app.put('/api/recipe/', upload.any(), function(req, res, next) {
     if (!req.session.user) return res.status(403).send("Forbidden");
     recipes.getAutoincrementId(function(err, id) {
         if (err) {
             res.status(409).json("Conflict when getting id");
             return next();
         }
-        var data = req.body;
-        // console.log(req.body.username);
+        var data = req.body.steps[0];
+        var data2 = req.files;
+        console.log(data);
+        console.log("files ", data2)
+        //console.log(req.body);
         // console.log(req.body.title);
         recipes.insert({_id: id, username:data.username, title:data.title, pic:data.pic, ings:data.ings, intro:data.intro, steps:data.steps, tip:data.tip}, function(err, doc) {
             if (err) {
@@ -250,6 +253,38 @@ app.put('/api/recipe/', function(req, res, next) {
             }
             res.json({id: id});
         });
+        // comments.insert({_id:id, pic_comments:[]}, function(err, doc){
+        //         if (err) {
+        //             res.status(409).json("Error with comments db");
+        //             return next();
+        //         }
+        //         res.json({id: id});
+        //         return next();
+        //     });
+    })
+})
+
+//upload recipe steps
+app.put('/api/recipe/steps', upload.any(), function(req, res, next) {
+    if (!req.session.user) return res.status(403).send("Forbidden");
+    recipes.getAutoincrementId(function(err, id) {
+        if (err) {
+            res.status(409).json("Conflict when getting id");
+            return next();
+        }
+        var data2 = req.files;
+        var data = req.body;
+        console.log("files 2 ", data2)
+        console.log("files body", data)
+        //console.log(req.body);
+        // console.log(req.body.title);
+        // recipes.insert({_id: id, username:data.username, title:data.title, pic:data.pic, ings:data.ings, intro:data.intro, steps:data.steps, tip:data.tip}, function(err, doc) {
+        //     if (err) {
+        //         res.status(409).json("Error with image db");
+        //         return next();
+        //     }
+        //     res.json({id: id});
+        // });
         // comments.insert({_id:id, pic_comments:[]}, function(err, doc){
         //         if (err) {
         //             res.status(409).json("Error with comments db");

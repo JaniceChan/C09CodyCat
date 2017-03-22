@@ -17,6 +17,7 @@
 
     
     document.addEventListener("loadPage",function(e){
+        //var simplemde = new SimpleMDE({ element: document.getElementById("test-area") });
     });
     //reads data from event and call uploadPic
     document.addEventListener("onRecipeUpload", function(e){

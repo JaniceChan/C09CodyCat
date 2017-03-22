@@ -69,8 +69,8 @@ var upload_model = (function(){
         formdata.append("tip", data.tip);
         //formdata.append("rating", data.rating);
         //formdata.append("tags", data.tags);
-        console.log(data);
-        doAjax('PUT', '/api/recipe/', data, true, callback);
+        //console.log(data);
+        doAjax('PUT', '/api/recipe/', formdata, false, callback);
     };
 
     // upload_model.getImgById = function(user, id, callback){

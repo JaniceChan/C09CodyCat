@@ -22,34 +22,34 @@ var upload_view = jQuery(document).ready(function(){
         $('#step-table').append('<tr><td><input type="textarea" class="step" placeholder="Step" required/></td><td><input type="button" value="Delete" /></td></tr>')
     });
 
-    document.getElementById("step-pics").onchange = function(evt) {
-        var files = evt.target.files; // FileList object
+//     document.getElementById("step-pics").onchange = function(evt) {
+//         var files = evt.target.files; // FileList object
 
-        // Loop through the FileList and render image files as thumbnails.
-        for (var i = 0, f; f = files[i]; i++) {
+//         // Loop through the FileList and render image files as thumbnails.
+//         for (var i = 0, f; f = files[i]; i++) {
 
-        // Only process image files.
-        if (!f.type.match('image.*')) {
-            continue;
-        }
+//         // Only process image files.
+//         if (!f.type.match('image.*')) {
+//             continue;
+//         }
 
-        var reader = new FileReader();
+//         var reader = new FileReader();
 
-        // Closure to capture the file information.
-        reader.onload = (function(theFile) {
-            return function(e) {
-            // Render thumbnail.
-            var span = document.createElement('span');
-            span.innerHTML = ['<img class="thumb" src="', e.target.result,
-                                '" title="', escape(theFile.name), '"/>'].join('');
-            document.getElementById('preview-steps').insertBefore(span, null);
-            };
-        })(f);
+//         // Closure to capture the file information.
+//         reader.onload = (function(theFile) {
+//             return function(e) {
+//             // Render thumbnail.
+//             var span = document.createElement('span');
+//             span.innerHTML = ['<img class="thumb" src="', e.target.result,
+//                                 '" title="', escape(theFile.name), '"/>'].join('');
+//             document.getElementById('preview-steps').insertBefore(span, null);
+//             };
+//         })(f);
 
-        // Read in the image file as a data URL.
-        reader.readAsDataURL(f);
-        }
-  }
+//         // Read in the image file as a data URL.
+//         reader.readAsDataURL(f);
+//         }
+//   }
 
   document.getElementById("submit-recipe").onclick = function(e){
       e.preventDefault();
@@ -58,7 +58,7 @@ var upload_view = jQuery(document).ready(function(){
       var pic = document.getElementById("recipe-pic-input").files[0];
       var intro = document.getElementById("recipe-intro-input").value;
       var ings = [];
-      var steps = [];
+      //var steps = [];
       var tip = document.getElementById("add-tip-input").value;
       //get ingredients and append to ings array
       var ing_table = document.getElementById("ing-table");
@@ -73,13 +73,18 @@ var upload_view = jQuery(document).ready(function(){
       var step_table = document.getElementById("step-table");
       for (var i = 0, row; row = step_table.rows[i]; i++) {
             var s = row.cells[0].children[0].value;
-            if (i < pics.length) {
-                steps.push({text:s, pics:pics[i]});
-            }
-            else {
-                steps.push({text:s, pics: null});
-            }
+            // if (i < pics.length) {
+            //     steps.push({text:s, pics:pics[i]});
+            // }
+            // else {
+            //     steps.push({text:s, pics: null});
+            // }
+            steps.push(s);
       }
+
+      var steps = document.getElementById("test-area").value;
+      console.log(steps);
+      
       data.title = title;
       data.pic = pic;
       data.intro = intro;

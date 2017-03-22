@@ -145,3 +145,28 @@ table{
     border: 1px solid #000;
     margin: 10px 5px 0 0;
 }
+
+.test-area {
+  width: 60%;
+}
+
+/*.CodeMirror, .CodeMirror-scroll {
+	min-height: 200px;
+  width: 60%;
+  padding-left: auto;
+  padding-right: auto;
+  text-align: center;
+}*/
+.CodeMirror {
+	height: 300px;
+  /*width: 70%;*/
+  text-align: center;
+  padding-left: auto;
+  padding-right: auto;
+}
+
+.CodeMirror-cursor {
+  border-left: 1px solid #000;
+  border-right: none;
+  width: 0;
+}

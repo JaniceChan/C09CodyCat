@@ -81,7 +81,7 @@ var upload_view = jQuery(document).ready(function(){
     //         // }
     //         steps.push(s);
     //   }
-      var steps = document.getElementById("steps-input").value;
+      var steps = document.getElementById("steps-input").innerHTML;
       data.title = title;
       data.pic = pic;
       data.intro = intro;

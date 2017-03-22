@@ -1,0 +1,2 @@
+{"_id":"__autoid__","seq":22,"updatedAt":{"$$date":1490219539179}}
+{"_id":22,"username":"test%40gmail.com","title":"test","pic":{"fieldname":"pic","originalname":"nyan1.jpeg","encoding":"7bit","mimetype":"image/jpeg","destination":"uploads/","filename":"8d721b2ef4d113d7b28e20e8e0bfefb1","path":"uploads/8d721b2ef4d113d7b28e20e8e0bfefb1","size":104978},"ings":"[object Object],[object Object]","intro":"intro","steps":"cook the fish and test","tip":"no tip","createdAt":{"$$date":1490219539185},"updatedAt":{"$$date":1490219539185}}

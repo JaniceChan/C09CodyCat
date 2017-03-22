@@ -68,23 +68,20 @@ var upload_view = jQuery(document).ready(function(){
             ings.push({ing:ing, quan: quan});
       }
       //get steps and append to steps array
-      var pics = document.getElementById("step-pics").files;
+      //var pics = document.getElementById("step-pics").files;
       //console.log(pics);
       var step_table = document.getElementById("step-table");
-      for (var i = 0, row; row = step_table.rows[i]; i++) {
-            var s = row.cells[0].children[0].value;
-            // if (i < pics.length) {
-            //     steps.push({text:s, pics:pics[i]});
-            // }
-            // else {
-            //     steps.push({text:s, pics: null});
-            // }
-            steps.push(s);
-      }
-
-      var steps = document.getElementById("test-area").value;
-      console.log(steps);
-      
+    //   for (var i = 0, row; row = step_table.rows[i]; i++) {
+    //         var s = row.cells[0].children[0].value;
+    //         // if (i < pics.length) {
+    //         //     steps.push({text:s, pics:pics[i]});
+    //         // }
+    //         // else {
+    //         //     steps.push({text:s, pics: null});
+    //         // }
+    //         steps.push(s);
+    //   }
+      var steps = document.getElementById("steps-input").value;
       data.title = title;
       data.pic = pic;
       data.intro = intro;
@@ -94,6 +91,7 @@ var upload_view = jQuery(document).ready(function(){
       document.dispatchEvent(new CustomEvent("onRecipeUpload",{detail: data}));
 
   }
+
 
     return upload_view;
 }());

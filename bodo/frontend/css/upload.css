@@ -180,3 +180,7 @@ table{
   border-right: none;
   width: 0;
 }
+
+#steps-input{
+  display: none;
+}

@@ -233,20 +233,19 @@ var Recipe = function(recipe){
 }
 
 //upload recipe
-app.put('/api/recipe/', upload.any(), function(req, res, next) {
+app.put('/api/recipe/', upload.single("pic"), function(req, res, next) {
     if (!req.session.user) return res.status(403).send("Forbidden");
     recipes.getAutoincrementId(function(err, id) {
         if (err) {
             res.status(409).json("Conflict when getting id");
             return next();
         }
-        var data = req.body.steps[0];
-        var data2 = req.files;
+        var data = req.body;
         console.log(data);
-        console.log("files ", data2)
         //console.log(req.body);
         // console.log(req.body.title);
-        recipes.insert({_id: id, username:data.username, title:data.title, pic:data.pic, ings:data.ings, intro:data.intro, steps:data.steps, tip:data.tip}, function(err, doc) {
+        var pic = req.file;
+        recipes.insert({_id: id, username:data.username, title:data.title, pic:pic, ings:data.ings, intro:data.intro, steps:data.steps, tip:data.tip}, function(err, doc) {
             if (err) {
                 res.status(409).json("Error with image db");
                 return next();

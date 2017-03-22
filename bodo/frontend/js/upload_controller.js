@@ -19,7 +19,7 @@
     document.addEventListener("loadPage",function(e){
         //var simplemde = new SimpleMDE({ element: document.getElementById("test-area") });
     });
-    //reads data from event and call uploadPic
+
     document.addEventListener("onRecipeUpload", function(e){
         var data = e.detail;
         console.log(data);
@@ -37,8 +37,7 @@
                     window.location = "/index.html";
                     return;
                 }
-                data._id = JSON.parse(response.id);
-                console.log(data._id);
+                //data._id = JSON.parse(response.id);
                 });
             }
         });

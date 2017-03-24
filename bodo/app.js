@@ -233,7 +233,7 @@ var Recipe = function(recipe){
 }
 
 //upload recipe
-app.put('/api/recipe/', upload.single("pic"), function(req, res, next) {
+app.put('/api/recipe/', upload.single("image"), function(req, res, next) {
     if (!req.session.user) return res.status(403).send("Forbidden");
     recipes.getAutoincrementId(function(err, id) {
         if (err) {
@@ -244,10 +244,10 @@ app.put('/api/recipe/', upload.single("pic"), function(req, res, next) {
         console.log(data);
         //console.log(req.body);
         // console.log(req.body.title);
-        var pic = req.file;
-        recipes.insert({_id: id, username:data.username, title:data.title, pic:pic, ings:data.ings, intro:data.intro, steps:data.steps, tip:data.tip}, function(err, doc) {
+        var image = req.file;
+        recipes.insert({_id: id, username:data.username, title:data.title, image:image, ings:data.ings, intro:data.intro, steps:data.steps, tip:data.tip}, function(err, doc) {
             if (err) {
-                res.status(409).json("Error with image db");
+                res.status(409).json("Error with recipe db");
                 return next();
             }
             res.json({id: id});
@@ -304,10 +304,14 @@ app.get("/api/users/:username/recipes/:id/", function(req, res, next) {
     if (id){
         recipes.findOne({_id: id, author: u}, function(err, data){
            if(err){
-               res.status(404).end("Image with id: " + id + " does not exists");
+               res.status(404).end("Recipe with id: " + id + " does not exists");
                return next();
            }
            if (data){
+               if (data.type === "file"){
+                   data.image = "/api/recipes/" + id + "/image/";
+                   data.mimetype = data.image.mimetype;
+               }
                res.json({found: true, id: id, message: data});
                return next();
            }
@@ -322,8 +326,8 @@ app.get("/api/users/:username/recipes/:id/", function(req, res, next) {
         return next();
     }
 });
-//get recipe pic
-app.get("/api/recipes/:id/pic/", function(req, res, next){
+//get recipe image
+app.get("/api/recipes/:id/image/", function(req, res, next){
     if (!req.session.user) return res.status(403).send("Forbidden");
     var id = parseInt(req.params.id);
     if (id){
@@ -333,12 +337,12 @@ app.get("/api/recipes/:id/pic/", function(req, res, next){
                 return next();
             }
             if (data){
-                var pic = data.pic;
-                res.setHeader("Content-Type", data.pic.mimetype);
-                res.sendFile(path.join(__dirname, pic.path));
+                var image = data.image;
+                res.setHeader("Content-Type", data.image.mimetype);
+                res.sendFile(path.join(__dirname, image.path));
                 return;
             }
-            res.status(404).end("pic with id: " + id + " does not exists");
+            res.status(404).end("Recipe image with id: " + id + " does not exists");
             return next();
         });
     }

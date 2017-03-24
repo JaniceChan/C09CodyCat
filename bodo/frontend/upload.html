@@ -10,6 +10,17 @@
     <!--Fav-->
     <link href="images/kitchen-kittens.png" rel="shortcut icon">
 
+
+        <!-- Main Quill library -->
+        <!-- Include the Quill library -->
+    <script src="https://cdn.quilljs.com/1.0.0/quill.js"></script>
+    <script src="//cdn.quilljs.com/1.2.2/quill.js"></script>
+    <script src="//cdn.quilljs.com/1.2.2/quill.min.js"></script>
+
+    <!-- Theme included stylesheets -->
+    <link href="//cdn.quilljs.com/1.2.2/quill.snow.css" rel="stylesheet">
+    <link href="//cdn.quilljs.com/1.2.2/quill.bubble.css" rel="stylesheet">
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
     <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
     <!--styles-->
@@ -101,7 +112,7 @@
   <p>
       <input id="add-ing" type="button" value="Add ingredient">
   </p>
-  </div>
+  <!--</div>
       <h2>Steps</h2>
       <div id="add-steps-div">
   <textarea id="test-area">Please format your steps nicely</textarea>
@@ -119,7 +130,37 @@
     document.getElementById("steps-input").innerHTML = simplemde.value();
   });
   </script>
+        </div>-->
+        <!-- Create the toolbar container -->
+        
+
+        <!-- Create the editor container -->
+        <div id="editor">
+          <p>Write your steps nicely here</p>
         </div>
+
+        <div id="steps-input"></div>
+        <!-- Initialize Quill editor -->
+        <script>
+        var toolbarOptions = [
+      [{ header: [1, 2, false] }],
+      ['bold', 'italic', 'underline'],
+      [{ list: 'ordered' }, { list: 'bullet' }],
+      ['image', 'video']
+    ];
+
+          var editor = new Quill('#editor', {
+            modules: { toolbar: toolbarOptions },
+            theme: 'snow'
+          });
+          document.getElementById("steps-input").innerHTML = document.querySelector(".ql-editor").innerHTML;
+          editor.on('text-change', function(){
+            document.getElementById("steps-input").innerHTML = document.querySelector(".ql-editor").innerHTML;
+            //console.log(document.querySelector(".ql-editor").innerHTML);
+          });
+          // console.log(editor.getContents());
+        </script>
+        <!--div to add tip-->
         <div class="add-tip-div">
             <h2>Tips</h2>
             <input id="add-tip-input" type="text" placeholder="Add your tip for recipe"/>

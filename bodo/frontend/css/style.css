@@ -1321,10 +1321,10 @@ ul.portfolio-image li .desc{
 
 }
 
-#recipe-pic {
-  /*content: url("../images/imageupload.png");
+#recipe-pic-placeholder {
+  content: url("/images/imageupload.png");
   max-width: 60%;
-  max-height: 60%;*/
+  max-height: 60%;
 
 /*  -webkit-transition: all 0.35s ease;
   transition: all 0.35s ease;

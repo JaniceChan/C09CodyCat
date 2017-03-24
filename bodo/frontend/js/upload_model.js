@@ -67,16 +67,16 @@ var upload_model = (function(){
         formdata.append("ings", data.ings);
         formdata.append("steps", data.steps);
         formdata.append("tip", data.tip);
-        doAjax('PUT', '/api/recipe/', formdata, false, callback);
+        doAjax('PUT', '/api/recipe/', formdata, false, function(err, data2){
+            if (err) console.error(err);
+            else {
+                var detail = {};
+                detail.id = data2;
+                detail.username = data.username;
+                window.location.replace("recipe.html");
+            }
+        });
     };
-
-    // upload_model.getImgById = function(user, id, callback){
-    //     doAjax("GET", "/api/users/" + user + "/images/" + id + "/", null , true, callback);
-    // };
-    
-    // upload_model.delImgById = function(id, callback){
-    //     doAjax("DELETE", "/api/images/" + id + "/", null , true, callback);
-    // };
 
     return upload_model;
 

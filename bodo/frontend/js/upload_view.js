@@ -90,6 +90,10 @@ var upload_view = jQuery(document).ready(function(){
       data.tip = tip;
       document.dispatchEvent(new CustomEvent("onRecipeUpload",{detail: data}));
 
+
+      // redirect to recipe page and populate recipe page
+      //window.location.replace("recipe.html");
+
   }
 
 

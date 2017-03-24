@@ -25,6 +25,7 @@ users = new Datastore({ filename: 'db/users.db', autoload: true, timestampData :
 recipes = new Datastore({ filename: 'db/recipes.db', autoload: true, timestampData : true });
 comments = new Datastore({ filename: 'db/comments.db', autoload: true, timestampData : true});
 
+
 var smtpTransport = nodemailer.createTransport({
     service: "gmail",
     host: "smtp.gmail.com",
@@ -155,7 +156,16 @@ app.get("/profile/setup", function (req, res, next) {
 
 });
 
+app.get("/recipe/setup/:id", function (req, res, next) {
+    if (!req.session.user) return res.status(403).send("Forbidden");
+    if(req.params.id == "new") {
+        recipes.findOne().sort({createdAt:-1}).exec(function(err, data2){
+            if (err) return res.status(404).end("Recipe:" + data._id + " does not exists");
+            return res.json(data2);
+        });
+    }
 
+});
 
 // send emails to kitchen kitten
 app.get('/send',function(req,res){
@@ -238,10 +248,10 @@ app.put('/api/recipe/', upload.single("image"), function(req, res, next) {
     recipes.getAutoincrementId(function(err, id) {
         if (err) {
             res.status(409).json("Conflict when getting id");
-            return next();
+            return err;
         }
         var data = req.body;
-        console.log(data);
+        //console.log(data);
         //console.log(req.body);
         // console.log(req.body.title);
         var image = req.file;
@@ -250,8 +260,12 @@ app.put('/api/recipe/', upload.single("image"), function(req, res, next) {
                 res.status(409).json("Error with recipe db");
                 return next();
             }
-            res.json({id: id});
+            res.json(id);
         });
+
+        //populate recipe page
+
+
         // comments.insert({_id:id, pic_comments:[]}, function(err, doc){
         //         if (err) {
         //             res.status(409).json("Error with comments db");

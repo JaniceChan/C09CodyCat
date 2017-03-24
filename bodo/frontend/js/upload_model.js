@@ -67,6 +67,9 @@ var upload_model = (function(){
         formdata.append("ings", data.ings);
         formdata.append("steps", data.steps);
         formdata.append("tip", data.tip);
+        formdata.append("ready", data.ready);
+        formdata.append("rating", data.rating);
+        formdata.append("tags", data.tags);
         doAjax('PUT', '/api/recipe/', formdata, false, function(err, data2){
             if (err) console.error(err);
             else {

@@ -59,6 +59,12 @@
         $("#ing-div").text(data.ings);
         $("#recipe-steps").html(data.steps);
         $("#tip-div").text(data.tip);
+        $("#recipe-tags-sp").text(data.tags);
+        // console.log("==========");
+        // console.log(data.tags);
+        // console.log($("#recipe-tags"));
+        $("#recipe-rating-sp").text(data.rating);
+        $("#recipe-ready-sp").text(data.ready);
 
 
         // if(data.phone != null) {

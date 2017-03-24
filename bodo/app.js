@@ -254,13 +254,14 @@ app.put('/api/recipe/', upload.single("pic"), function(req, res, next) {
             return err;
         }
         var data = req.body;
-        //console.log(data);
+        console.log(data);
         //console.log(req.body);
         // console.log(req.body.title);
         var pic = req.file;
         var recipe = new Recipe(data);
         recipe._id = id;
         recipe.pic = pic;
+        //console.log(recipe);
         //recipes.insert({_id: id, username:data.username, title:data.title, pic:pic, ings:data.ings, intro:data.intro, steps:data.steps, tip:data.tip}, function(err, doc) {
         recipes.insert(recipe, function(err, doc) {
             if (err) {

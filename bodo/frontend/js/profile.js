@@ -65,26 +65,32 @@
     doAjax("GET", "/recipe/uploads", null, true, function(err, data){
         if (err) console.error(err);
         else {
-          var recipes = data;
-          recipes.reverse();            
+          var recipes = data;            
           var container = document.getElementById("first-row-upload");
           container.innerHTML = "";
-          var e;
-          recipes.forEach(function (r){
-            e = document.createElement('li');
-            e.innerHTML = `
-                      <div id=${r._id} class="col-md-4 col-sm-4">
-                        <img class="icon" src="/api/recipes/${r._id}/pic/" />
-                        <p class="head-sm">
-                          ${r.title}
-                        </p>
-                        <p class="text-grey">
-                          ${r.intro} 
-                        </p>
-                      </div>`;
-            // add this element to the document
-            container.prepend(e);
-          });
+          if (recipes.length > 0) {
+            $("#upload-msg").text("These are looking delicious.");
+            var e;
+            var len = Math.min(recipes.length, 3);
+            for (var i=0; i < len; i++) {
+              e = document.createElement('li');
+              e.innerHTML = `
+                          <div id=${recipes[i]._id} class="col-md-4 col-sm-4 uploaded-recipe">
+                            <img class="icon" src="/api/recipes/${recipes[i]._id}/pic/" />
+                            <p class="head-sm">
+                              ${recipes[i].title}
+                            </p>
+                            <p class="text-grey">
+                              ${recipes[i].intro} 
+                            </p>
+                          </div>`;
+              // add this element to the document
+              container.append(e);
+            }
+          } else {
+            $("#upload-msg").text("No uploads yet.");
+          }
+
 
           container = document.getElementById("second-row-upload");
           container.innerHTML = "";
@@ -92,7 +98,7 @@
             for (var i=3; i < recipes.length; i++) {
               e = document.createElement('li');
               e.innerHTML = `
-                        <div id=${recipes[i]._id} class="col-md-4 col-sm-4">
+                        <div id=${recipes[i]._id} class="col-md-4 col-sm-4 uploaded-recipe">
                           <img class="icon" src="/api/recipes/${recipes[i]._id}/pic/" />
                           <p class="head-sm">
                             ${recipes[i].title}
@@ -102,13 +108,17 @@
                           </p>
                         </div>`;
               // add this element to the document
-              container.prepend(e);
+              container.append(e);
             }
           }
         }
       });
 
     }
+
+  function getRecipe(recipeId) {
+    console.log(recipeId);
+  }
 
   $("#phone-form").submit(function(e){
     e.preventDefault();

@@ -750,17 +750,19 @@ ul.portfolio-image li .desc{
 
 
 /*---------- b. service -----------*/
-/*.icon-use {
-  font-family: 'Glyphter';
-  font-size: 30px;
-  line-height: 20px;
-  color: #818181;
-  margin: 0;
-}*/
 
 .icon {
-  max-width: 30px;
-  max-height: 30px;
+  max-width: 150px;
+  max-height: 150px;
+}
+
+.uploaded-recipe {
+  cursor: pointer;
+}
+
+.uploaded-recipe:hover {
+  cursor: pointer;
+  opacity: 0.5;
 }
 
 .head-sm {

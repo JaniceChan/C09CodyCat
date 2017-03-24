@@ -181,9 +181,9 @@ table{
   width: 0;
 }
 
-/*#steps-input{
+#steps-input{
   display: none;
-}*/
+}
 
 #editor {
   max-height: 375px;

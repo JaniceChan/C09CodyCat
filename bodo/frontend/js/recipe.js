@@ -57,7 +57,7 @@
 
         $("#recipe-intro-div").text(data.intro);
         $("#ing-div").text(data.ings);
-        $("#recipe-steps").text(data.steps);
+        $("#recipe-steps").html(data.steps);
         $("#tip-div").text(data.tip);
 
 

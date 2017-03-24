@@ -171,7 +171,7 @@ app.get("/recipe/uploads", function (req, res, next) {
     if (!req.session.user) return res.status(403).send("Forbidden");
     var n = 6;
     //find info on recent 6 recipes
-    recipes.find().sort({createdAt:-1}).limit(n).exec(function(err, data2){
+    recipes.find({username: req.session.user.email}).sort({createdAt:-1}).limit(n).exec(function(err, data2){
         if (err) return res.status(404).end("Recipe does not exists");
         return res.json(data2);
     });
@@ -264,7 +264,7 @@ app.put('/api/recipe/', upload.single("pic"), function(req, res, next) {
             return err;
         }
         var data = req.body;
-        console.log(data);
+        //console.log(data);
         //console.log(req.body);
         // console.log(req.body.title);
         var pic = req.file;
@@ -305,8 +305,8 @@ app.put('/api/recipe/steps', upload.any(), function(req, res, next) {
         }
         var data2 = req.files;
         var data = req.body;
-        console.log("files 2 ", data2)
-        console.log("files body", data)
+        //console.log("files 2 ", data2)
+        //console.log("files body", data)
         //console.log(req.body);
         // console.log(req.body.title);
         // recipes.insert({_id: id, username:data.username, title:data.title, pic:data.pic, ings:data.ings, intro:data.intro, steps:data.steps, tip:data.tip}, function(err, doc) {
@@ -365,10 +365,12 @@ app.get("/api/recipes/:id/pic/", function(req, res, next){
                 return next();
             }
             if (data){
-                var pic = data.pic;
-                res.setHeader("Content-Type", data.pic.mimetype);
-                res.sendFile(path.join(__dirname, pic.path));
-                return;
+                if(data.pic) {
+                    var pic = data.pic;
+                    res.setHeader("Content-Type", data.pic.mimetype);
+                    res.sendFile(path.join(__dirname, pic.path));
+                    return;
+                }
             }
             res.status(404).end("pic with id: " + id + " does not exists");
             return next();

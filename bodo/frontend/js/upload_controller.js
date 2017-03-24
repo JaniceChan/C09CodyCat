@@ -22,7 +22,7 @@
 
     document.addEventListener("onRecipeUpload", function(e){
         var data = e.detail;
-        console.log(data);
+        //console.log(data);
         upload_model.getActiveUsername(function(err, response){
             if(err){
                 alert(err);
@@ -31,6 +31,7 @@
             }
             if (response){
                 data.username = response;
+                //console.log("responese", response);
                 upload_model.uploadRecipe(data, function(err, response){
                 if(err){
                     alert(err);

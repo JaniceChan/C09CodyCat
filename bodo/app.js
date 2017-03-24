@@ -235,10 +235,13 @@ var Recipe = function(recipe){
     this.username = recipe.username;
     this.intro = recipe.intro;
     this.title = recipe.title;
-    this.pic = recipe.pic;
+    //this.pic = recipe.pic;
     this.ings = recipe.ings;
     this.steps = recipe.steps;
     this.tip = recipe.tip;
+    this.ready = recipe.ready;
+    this.rating = recipe.rating;
+    this.tags = recipe.tags;
     //tags
 }
 
@@ -255,9 +258,13 @@ app.put('/api/recipe/', upload.single("pic"), function(req, res, next) {
         //console.log(req.body);
         // console.log(req.body.title);
         var pic = req.file;
-        recipes.insert({_id: id, username:data.username, title:data.title, pic:pic, ings:data.ings, intro:data.intro, steps:data.steps, tip:data.tip}, function(err, doc) {
+        var recipe = new Recipe(data);
+        recipe._id = id;
+        recipe.pic = pic;
+        //recipes.insert({_id: id, username:data.username, title:data.title, pic:pic, ings:data.ings, intro:data.intro, steps:data.steps, tip:data.tip}, function(err, doc) {
+        recipes.insert(recipe, function(err, doc) {
             if (err) {
-                res.status(409).json("Error with image db");
+                res.status(409).json("Error with recipe db");
                 return next();
             }
             res.json(id);

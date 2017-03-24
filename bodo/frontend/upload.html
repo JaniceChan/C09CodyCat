@@ -66,6 +66,21 @@
         <img id="preview" alt="+ Your image" src="./images/imageupload.png">
         <input id="recipe-pic-input" type="file" onchange="document.getElementById('preview').src = window.URL.createObjectURL(this.files[0])" />
       </div>
+      <div class="recipe-item">
+            <img src="/images/rating.png" id="upload-rating"/>
+            <span class="caption">Rate yourself</span>
+            <input type="text" id="recipe-rating-input">
+        </div>
+        <div class="recipe-item">
+            <img src="/images/ready.png" id="upload-ready"/>
+            <span class="caption">Ready time</span>
+            <input type="text" id="recipe-ready-input">
+        </div>
+        <div class="recipe-item">
+            <img src="/images/tags.png" id="upload-tags"/>
+            <span class="caption">Tags</span>
+            <input type="text" id="recipe-tags-input">
+        </div>
       <h2>Introduction</h2>
       <div id="recipe-intro-div">
         <input id="recipe-intro-input" type="text" placeholder="Add your recipe Introduction" />

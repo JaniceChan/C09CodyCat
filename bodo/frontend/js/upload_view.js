@@ -57,6 +57,9 @@ var upload_view = jQuery(document).ready(function(){
       var title = document.getElementById("recipe-title-input").value;
       var pic = document.getElementById("recipe-pic-input").files[0];
       var intro = document.getElementById("recipe-intro-input").value;
+      var rating = document.getElementById("recipe-rating-input").value;
+      var ready = document.getElementById("recipe-ready-input").value;
+      var tags = document.getElementById("recipe-tags-input").value;
       var ings = [];
       //var steps = [];
       var tip = document.getElementById("add-tip-input").value;
@@ -88,6 +91,9 @@ var upload_view = jQuery(document).ready(function(){
       data.ings = ings;
       data.steps = steps;
       data.tip = tip;
+      data.rating = rating;
+      data.ready = ready;
+      data.tags = tags;
       document.dispatchEvent(new CustomEvent("onRecipeUpload",{detail: data}));
 
 

@@ -167,6 +167,16 @@ app.get("/recipe/setup/:id", function (req, res, next) {
 
 });
 
+app.get("/recipe/uploads", function (req, res, next) {
+    if (!req.session.user) return res.status(403).send("Forbidden");
+    var n = 6;
+    //find info on recent 6 recipes
+    recipes.find().sort({createdAt:-1}).limit(n).exec(function(err, data2){
+        if (err) return res.status(404).end("Recipe does not exists");
+        return res.json(data2);
+    });
+});
+
 // send emails to kitchen kitten
 app.get('/send',function(req,res){
     var mailOptions={

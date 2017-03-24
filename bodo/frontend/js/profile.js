@@ -27,6 +27,9 @@
     //set profile info
     getInfo();
 
+    //set recipe uploads info
+    getUploads();
+
     //preloader
     $("#status").fadeOut(); // will first fade out the loading animation
     $("#preloader").delay(450).fadeOut("slow"); // will fade out the white DIV that covers the website.
@@ -57,6 +60,42 @@
         //get user's favourites and uploads
       });
   }
+
+  function getUploads() {
+    doAjax("GET", "/recipe/uploads", null, true, function(err, data){
+        if (err) console.error(err);
+        else {
+          var recipes = data;
+          recipes.reverse();            
+          var container = document.getElementById("first-row-upload");
+          container.innerHTML = "";
+          recipes.forEach(function (r){
+
+            var e = document.createElement('li');
+            e.innerHTML = `
+                      <div id=${r._id} class="col-md-4 col-sm-4">
+                        <img class="icon" src="/api/recipes/${r._id}/pic/" />
+                        <p class="head-sm">
+                          ${r.title}
+                        </p>
+                        <p class="text-grey">
+                          ${r.intro} 
+                        </p>
+                      </div>`;
+            // add this element to the document
+            container.prepend(e);
+          }
+
+          container = document.getElementById("second-row-upload");
+          container.innerHTML = "";
+          if(recipes.length > 3) {
+
+          }
+          else {
+
+          }
+
+    });
 
   $("#phone-form").submit(function(e){
     e.preventDefault();

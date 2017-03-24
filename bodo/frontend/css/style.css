@@ -750,13 +750,19 @@ ul.portfolio-image li .desc{
 
 
 /*---------- b. service -----------*/
-.icon-use {
+/*.icon-use {
   font-family: 'Glyphter';
   font-size: 30px;
   line-height: 20px;
   color: #818181;
   margin: 0;
+}*/
+
+.icon {
+  max-width: 30px;
+  max-height: 30px;
 }
+
 .head-sm {
   font-size: 13px;
   letter-spacing: 1.5px;
@@ -1322,7 +1328,7 @@ ul.portfolio-image li .desc{
 }
 
 #recipe-pic-placeholder {
-  content: url("/images/imageupload.png");
+/*  content: url("/images/imageupload.png");*/
   max-width: 60%;
   max-height: 60%;
 

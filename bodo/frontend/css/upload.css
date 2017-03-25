@@ -181,6 +181,10 @@ table{
   width: 0;
 }
 
+#recipe-title-div {
+  padding-top: 50px;
+}
+
 #steps-input{
   display: none;
 }

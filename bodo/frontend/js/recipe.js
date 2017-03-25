@@ -68,7 +68,7 @@
         // console.log("==========");
         // console.log(data.tags);
         // console.log($("#recipe-tags"));
-        doAjax("GET", "/recipe/fav/"+id, null, true, function(err, data2){
+        doAjax("GET", "/recipe/ifFav/"+id, null, true, function(err, data2){
           if (err) console.error(err);
           else {
             $("#recipe-rating-sp").text(data2);

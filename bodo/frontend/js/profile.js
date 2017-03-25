@@ -30,6 +30,9 @@
     //set recipe uploads info
     getUploads();
 
+    //set favourite recipes info
+    getFav();
+
     //preloader
     $("#status").fadeOut(); // will first fade out the loading animation
     $("#preloader").delay(450).fadeOut("slow"); // will fade out the white DIV that covers the website.
@@ -93,6 +96,61 @@
 
 
           container = document.getElementById("second-row-upload");
+          container.innerHTML = "";
+          if (recipes.length > 3) {
+            for (var i=3; i < recipes.length; i++) {
+              e = document.createElement('li');
+              e.innerHTML = `
+                        <div id=${recipes[i]._id} class="col-md-4 col-sm-4 uploaded-recipe">
+                          <img class="icon" src="/api/recipes/${recipes[i]._id}/pic/" />
+                          <p class="head-sm">
+                            ${recipes[i].title}
+                          </p>
+                          <p class="text-grey">
+                            ${recipes[i].intro} 
+                          </p>
+                        </div>`;
+              // add this element to the document
+              container.append(e);
+            }
+          }
+        }
+      });
+
+    }
+
+  function getFav() {
+    doAjax("GET", "/recipe/fav", null, true, function(err, data){
+        if (err) console.error(err);
+        else {
+          var recipes = data;            
+          var container = document.getElementById("first-row-fav");
+          container.innerHTML = "";
+          if (recipes.length > 0) {
+            $("#fav-msg").text("Try making these yourself, remember to comment on their recipe your results!");
+            var e;
+            var len = Math.min(recipes.length, 3);
+            for (var i=0; i < len; i++) {
+              e = document.createElement('li');
+              e.innerHTML = `
+                          <div id=${recipes[i]._id} class="col-md-4 col-sm-4 uploaded-recipe">
+                            <img class="icon" src="/api/recipes/${recipes[i]._id}/pic/" />
+                            <p class="head-sm">
+                              ${recipes[i].title}
+                            </p>
+                            <p class="text-grey">
+                              ${recipes[i].intro} 
+                            </p>
+                          </div>`;
+              // add this element to the document
+              container.append(e);
+            }
+          } else {
+            $("#fav-msg").text("No favourites yet.");
+          }
+
+
+          container = document.getElementById("second-row-fav");
           container.innerHTML = "";
           if (recipes.length > 3) {
             for (var i=3; i < recipes.length; i++) {

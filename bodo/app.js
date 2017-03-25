@@ -218,14 +218,14 @@ app.get("/recipe/setup/:id", function (req, res, next) {
 app.get("/recipe/uploads", function (req, res, next) {
     if (!req.session.user) return res.status(403).send("Forbidden");
     var n = 6;
-    //find info on recent 6 recipes
+    //find info on recent 6 uploaded recipes
     recipes.find({username: req.session.user.email}).sort({createdAt:-1}).limit(n).exec(function(err, data2){
         if (err) return res.status(404).end("Recipe does not exists");
         return res.json(data2);
     });
 });
 
-app.get("/recipe/fav/:id", function (req, res, next) {
+app.get("/recipe/ifFav/:id", function (req, res, next) {
     if (!req.session.user) return res.status(403).send("Forbidden");
     var recipeId = parseInt(req.params.id);
 
@@ -234,6 +234,17 @@ app.get("/recipe/fav/:id", function (req, res, next) {
     }
     return res.json("Favourite this!");
 });
+
+app.get("/recipe/fav/", function (req, res, next) {
+    if (!req.session.user) return res.status(403).send("Forbidden");
+    var n = 6;
+    //find info on recent 6 fav recipes
+    recipes.find({_id: { $in: req.session.user.fav }}).sort({createdAt:-1}).limit(n).exec(function(err, data2){
+        if (err) return res.status(404).end("Recipe does not exists");
+        return res.json(data2);
+    });
+});
+
 
 // send emails to kitchen kitten
 app.get('/send',function(req,res){

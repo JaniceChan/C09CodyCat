@@ -477,7 +477,7 @@ app.get("/api/home/search/", function(req, res, next) {
     var regex = new RegExp(searchStr, 'i');
     //limit to 9
     var n = 9;
-    recipes.find({title: {"$regex": regex}}).sort({createdAt:-1}).limit(n).exec(function(err, data){
+    recipes.find({ $or: [{title: {"$regex": regex}}, {tags: {"$regex": regex}}] }).sort({createdAt:-1}).limit(n).exec(function(err, data){
         if(err){
             res.status(409).json("Error in recipes db");
             return next();

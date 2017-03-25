@@ -66,10 +66,15 @@ var upload_view = jQuery(document).ready(function(){
       var tip = document.getElementById("add-tip-input").value;
       //get ingredients and append to ings array
       var ing_table = document.getElementById("ing-table");
+      var obj = [];
       for (var i = 0, row; row = ing_table.rows[i]; i++) {
             var ing = row.cells[0].children[0].value;
             var quan = row.cells[1].children[0].value;
-            ings.push({ing:ing, quan: quan});
+            // obj.ing = ing;
+            // obj.quan = quan;
+            console.log(obj);
+            obj = [ing, quan];
+            ings.push(obj);
       }
       //get steps and append to steps array
       //var pics = document.getElementById("step-pics").files;
@@ -85,6 +90,7 @@ var upload_view = jQuery(document).ready(function(){
     //         // }
     //         steps.push(s);
     //   }
+    console.log(ings);
       var steps = document.getElementById("steps-input").innerHTML;
       data.title = title;
       data.pic = pic;

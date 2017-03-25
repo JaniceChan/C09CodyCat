@@ -61,13 +61,28 @@
         $("#recipe-pic-placeholder").css("background-image", "url(/api/recipes/" + data._id + "/pic/)");
 
         $("#recipe-intro-div").text(data.intro);
-        $("#ing-div").text(data.ings);
+        //$("#ing-div").text(data.ings);
+        var q = data.ings.split(",");
+        console.log(q);
+        var table = document.createElement('TABLE')
+        var tableBody = document.createElement('TBODY')
+        table.border = '1'
+        table.appendChild(tableBody);
+        for (var i = 0; i < q.length; i+=2) {
+          var tr = document.createElement('TR');
+          var td1 = document.createElement('TD')
+          var td2 = document.createElement('TD')          
+          td1.appendChild(document.createTextNode(q[i]));
+          td2.appendChild(document.createTextNode(q[i+1]));
+          tr.appendChild(td1);
+          tr.appendChild(td2);
+          tableBody.appendChild(tr);
+        }
+        var ing_div = document.getElementById("ing-div");
+        ing_div.appendChild(table);
         $("#recipe-steps").html(data.steps);
         $("#tip-div").text(data.tip);
         $("#recipe-tags-sp").text(data.tags);
-        // console.log("==========");
-        // console.log(data.tags);
-        // console.log($("#recipe-tags"));
         doAjax("GET", "/recipe/ifFav/"+id, null, true, function(err, data2){
           if (err) console.error(err);
           else {

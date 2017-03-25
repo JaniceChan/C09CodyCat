@@ -160,7 +160,13 @@ app.get("/recipe/setup/:id", function (req, res, next) {
     if (!req.session.user) return res.status(403).send("Forbidden");
     if(req.params.id == "new") {
         recipes.findOne().sort({createdAt:-1}).exec(function(err, data2){
-            if (err) return res.status(404).end("Recipe:" + data._id + " does not exists");
+            if (err) return res.status(404).end("Recipe does not exists");
+            return res.json(data2);
+        });
+    } else {
+        var recipeId = parseInt(req.params.id);
+        recipes.findOne({_id: recipeId}).exec(function(err, data2){
+            if (err) return res.status(404).end("Recipe:" + recipeId + " does not exists");
             return res.json(data2);
         });
     }

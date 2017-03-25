@@ -25,8 +25,18 @@
 
   $(window).on("load", function() { // makes sure the whole site is loaded
     //set recipe info
-    getUserInfo();
-    getRecipeInfo();
+    // var vars = [], hash;
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    var hash = hashes[0].split('=');
+    var id = hash[1];
+    // for(var i = 0; i < hashes.length; i++)
+    // {
+    //     hash = hashes[i].split('=');
+    //     vars.push(hash[0]);
+    //     vars[hash[0]] = hash[1];
+    // }
+
+    getRecipeInfo(id);
 
     //need another function in case id is provided
 
@@ -41,14 +51,9 @@
     });    
   });
 
-  function getUserInfo() {
-      $.get("https://localhost:3000/profile/setup",function(data){
+  function getRecipeInfo(id) {
+     $.get("https://localhost:3000/recipe/setup/"+id,function(data){
         $("#recipe-user").html("By: " + data.username);
-      });
-  }
-
-  function getRecipeInfo() {
-     $.get("https://localhost:3000/recipe/setup/new",function(data){
         $("#recipe-title").html(data.title);
         var dateCreated = data.createdAt;
         dateCreated = dateCreated.substring(0, 10);

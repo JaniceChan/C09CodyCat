@@ -116,9 +116,10 @@
 
     }
 
-  function getRecipe(recipeId) {
-    console.log(recipeId);
-  }
+  $(document).on('click', ".uploaded-recipe", function() {
+      var id = $(this).attr("id");
+      window.location.replace("recipe.html?id="+id);
+  });
 
   $("#phone-form").submit(function(e){
     e.preventDefault();

@@ -76,7 +76,7 @@ var upload_model = (function(){
                 var detail = {};
                 detail.id = data2;
                 detail.username = data.username;
-                window.location.replace("recipe.html");
+                window.location.replace("recipe.html?id=new");
             }
         });
     };

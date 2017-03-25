@@ -255,6 +255,56 @@ app.get("/recipe/topFav/", function (req, res, next) {
     });
 });
 
+app.get("/recipe/stats/:chartId", function (req, res, next) {
+    if (!req.session.user) return res.status(403).send("Forbidden");
+    //find info on recent 6 top fav recipes
+    var stats = {};
+    if(req.params.chartId == "0") {
+        stats.numFav = 0;
+        stats.numUploads = 0;
+        // TODO: number of comments
+        stats.numComments = 0; 
+        var oneWeekAgo = new Date();
+        oneWeekAgo.setDate(oneWeekAgo.getDate()-7);
+        recipes.find({$and: [{username: req.session.user.email}, {createdAt: {$gte: oneWeekAgo}}] }, function(err, data){
+            if (err) return res.status(404).end("Recipe does not exists");
+            stats.numUploads += data.length;    
+            users.findOne({email: req.session.user.email }, function(err, data2){
+                if (err) return res.status(404).end("Recipe does not exists");
+                stats.numFav += data2.fav.length;
+                return res.json(stats);
+            });
+        });
+    } else if(req.params.chartId == "1") {
+        stats.rookie = 0;
+        stats.junior = 0;
+        stats.apprentice = 0;
+        stats.senior = 0;
+        stats.master = 0;
+        var oneWeekAgo = new Date();
+        oneWeekAgo.setDate(oneWeekAgo.getDate()-7);
+        recipes.find({$and: [{username: req.session.user.email}, {createdAt: {$gte: oneWeekAgo}}] }, function(err, data){
+            if (err) return res.status(404).end("Recipe does not exists");
+            data.forEach(function(r) {
+                if(r.rating < 10) {
+                    stats.rookie ++;
+                } else if (r.rating >= 10 && r.rating < 20) {
+                    stats.junior ++;
+                } else if (r.rating >= 20 && r.rating < 50) {
+                    stats.apprentice ++;
+                } else if (r.rating >= 50 && r.rating < 100) {
+                    stats.senior ++;
+                } else {
+                    stats.master ++;
+                }
+            });
+            return res.json(stats);
+
+        });
+    }
+
+});
+
 
 // send emails to kitchen kitten
 app.get('/send',function(req,res){

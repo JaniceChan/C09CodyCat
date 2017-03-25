@@ -131,6 +131,10 @@ p span
   padding: none;
 }
 
+.hide {
+  display: none;
+}
+
 /*---- span -----*/
 .title-small span { position: relative;}
 .title-small span:after {

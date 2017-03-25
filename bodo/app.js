@@ -201,15 +201,15 @@ app.get("/profile/setup", function (req, res, next) {
 app.get("/recipe/setup/:id", function (req, res, next) {
     if (!req.session.user) return res.status(403).send("Forbidden");
     if(req.params.id == "new") {
-        recipes.findOne().sort({createdAt:-1}).exec(function(err, data2){
+        recipes.findOne().sort({createdAt:-1}).exec(function(err, data){
             if (err) return res.status(404).end("Recipe does not exists");
-            return res.json(data2);
+            return res.json(data);
         });
     } else {
         var recipeId = parseInt(req.params.id);
-        recipes.findOne({_id: recipeId}).exec(function(err, data2){
+        recipes.findOne({_id: recipeId}).exec(function(err, data){
             if (err) return res.status(404).end("Recipe:" + recipeId + " does not exists");
-            return res.json(data2);
+            return res.json(data);
         });
     }
 
@@ -219,9 +219,9 @@ app.get("/recipe/uploads", function (req, res, next) {
     if (!req.session.user) return res.status(403).send("Forbidden");
     var n = 6;
     //find info on recent 6 uploaded recipes
-    recipes.find({username: req.session.user.email}).sort({createdAt:-1}).limit(n).exec(function(err, data2){
+    recipes.find({username: req.session.user.email}).sort({createdAt:-1}).limit(n).exec(function(err, data){
         if (err) return res.status(404).end("Recipe does not exists");
-        return res.json(data2);
+        return res.json(data);
     });
 });
 
@@ -239,9 +239,19 @@ app.get("/recipe/fav/", function (req, res, next) {
     if (!req.session.user) return res.status(403).send("Forbidden");
     var n = 6;
     //find info on recent 6 fav recipes
-    recipes.find({_id: { $in: req.session.user.fav }}).sort({createdAt:-1}).limit(n).exec(function(err, data2){
+    recipes.find({_id: { $in: req.session.user.fav }}).sort({createdAt:-1}).limit(n).exec(function(err, data){
         if (err) return res.status(404).end("Recipe does not exists");
-        return res.json(data2);
+        return res.json(data);
+    });
+});
+
+app.get("/recipe/topFav/", function (req, res, next) {
+    if (!req.session.user) return res.status(403).send("Forbidden");
+    var n = 6;
+    //find info on recent 6 top fav recipes
+    recipes.find().sort({rating:-1}).limit(n).exec(function(err, data){
+        if (err) return res.status(404).end("Recipe does not exists");
+        return res.json(data);
     });
 });
 

@@ -88,6 +88,11 @@ img { max-width: 100%; }
   outline: none;
 }
 
+p span 
+{
+    display: block;
+}
+
 /*----------------------------------------- 2) Preloader --------------------------------------------------*/
 #preloader {
   position: fixed;
@@ -1316,8 +1321,16 @@ ul.portfolio-image li .desc{
 .recipe-item #recipe-rating {
   width: 70px;
   height: 70px;
-
+  cursor: pointer;
 }
+
+.recipe-item #recipe-rating:hover {
+  width: 70px;
+  height: 70px;
+  opacity: 0.5;
+  cursor: pointer;
+}
+
 .recipe-item #recipe-ready {
   width: 70px;
   height: 70px;
@@ -1330,10 +1343,10 @@ ul.portfolio-image li .desc{
 }
 
 #recipe-pic-placeholder {
-/*  content: url("/images/imageupload.png");*/
-  max-width: 60%;
-  max-height: 60%;
-
+/*  max-width: 500px;
+  max-height: 500px;*/
+  background-size:500px 500px;
+  background-repeat:no-repeat;
 /*  -webkit-transition: all 0.35s ease;
   transition: all 0.35s ease;
   position: absolute;
@@ -1344,8 +1357,8 @@ ul.portfolio-image li .desc{
 {
   display:block;
   margin: 0 auto;
-/*  width: 100px;
-  height: 100px;*/
+  width: 500px;
+  height: 550px;
 }
 
 .search-recipe-form {
@@ -1358,6 +1371,11 @@ ul.portfolio-image li .desc{
 
 .recipe-details {
   padding-top: 10%;
+  cursor: pointer;
+}
+
+.recipe-details: hover {
+  cursor: pointer;
 }
 /*---------------- a. Skills ----------------*/
 .skillst {margin-top: 30px;}

@@ -111,13 +111,55 @@ var User = function(user){
     this.phone;
     this.address;
     this.image;
+    this.fav;
 };
+
+var Recipe = function(recipe){
+    this.username = recipe.username;
+    this.intro = recipe.intro;
+    this.title = recipe.title;
+    //this.pic = recipe.pic;
+    this.ings = recipe.ings;
+    this.steps = recipe.steps;
+    this.tip = recipe.tip;
+    this.ready = recipe.ready;
+    this.rating = recipe.rating;
+    this.tags = recipe.tags;
+    //tags
+}
 
 var checkPassword = function(user, password){
         var hash = crypto.createHmac('sha512', user.salt);
         hash.update(password);
         var value = hash.digest('base64');
         return (user.saltedHash === value);
+};
+
+var contains = function(needle) {
+    // Per spec, the way to identify NaN is that it is not equal to itself
+    var findNaN = needle !== needle;
+    var indexOf;
+
+    if(!findNaN && typeof Array.prototype.indexOf === 'function') {
+        indexOf = Array.prototype.indexOf;
+    } else {
+        indexOf = function(needle) {
+            var i = -1, index = -1;
+
+            for(i = 0; i < this.length; i++) {
+                var item = this[i];
+
+                if((findNaN && item !== item) || item === needle) {
+                    index = i;
+                    break;
+                }
+            }
+
+            return index;
+        };
+    }
+
+    return indexOf.call(this, needle) > -1;
 };
 
 
@@ -183,6 +225,16 @@ app.get("/recipe/uploads", function (req, res, next) {
     });
 });
 
+app.get("/recipe/fav/:id", function (req, res, next) {
+    if (!req.session.user) return res.status(403).send("Forbidden");
+    var recipeId = parseInt(req.params.id);
+
+    if (contains.call(req.session.user.fav, recipeId)) {
+        return res.json("Unfavourite");
+    }
+    return res.json("Favourite this!");
+});
+
 // send emails to kitchen kitten
 app.get('/send',function(req,res){
     var mailOptions={
@@ -237,6 +289,7 @@ app.get('/api/home/', function (req, res, next) {
 //signup
 app.put('/api/users/', function (req, res, next) {
     var data = new User(req.body);
+    data.fav = [];
     users.findOne({username: req.body.username}, function(err, user){
         if (err) return res.status(500).end(err);
         if (user) return res.status(409).end("Username " + req.body.username + " already exists");
@@ -246,20 +299,6 @@ app.put('/api/users/', function (req, res, next) {
         });
     });
 });
-
-var Recipe = function(recipe){
-    this.username = recipe.username;
-    this.intro = recipe.intro;
-    this.title = recipe.title;
-    //this.pic = recipe.pic;
-    this.ings = recipe.ings;
-    this.steps = recipe.steps;
-    this.tip = recipe.tip;
-    this.ready = recipe.ready;
-    this.rating = recipe.rating;
-    this.tags = recipe.tags;
-    //tags
-}
 
 //upload recipe
 app.put('/api/recipe/', upload.single("pic"), function(req, res, next) {
@@ -465,6 +504,55 @@ app.patch('/profile/setup/address/:addr', function (req, res, next) {
     return next();
 
 });
+
+app.patch("/user/fav/:id", function(req, res, next) {
+    if (!req.session.user) return res.status(403).end("Forbidden");
+    var recipeId = parseInt(req.params.id);
+    recipes.findOne({ _id: recipeId }).exec(function(e1, recipe) {
+        //do not allow users to vote on their own comment
+        if((recipe.username === req.session.user.email)) return res.status(403).send("Forbidden");
+        switch(req.body.action){
+            case ("fav"):
+                req.session.user.fav.push(recipeId);
+                // console.log("session", req.session.user.fav);
+                break;
+            case ("unfav"):
+                var index = req.session.user.fav.indexOf(recipeId);
+                req.session.user.fav.splice(index, 1);
+                // console.log("session", req.session.user.fav);
+                break;
+        }
+        users.update({ email: req.session.user.email }, { $set: { "fav": req.session.user.fav } }, {}, function (e2, numReplaced) {});
+        return res.json(req.session.user);
+    });
+
+});
+
+app.patch("/recipe/rating/:id", function(req, res, next) {
+    if (!req.session.user) return res.status(403).end("Forbidden");
+    var recipeId = parseInt(req.params.id);
+    recipes.findOne({ _id: recipeId }).exec(function(e1, recipe) {
+        //do not allow users to vote on their own comment
+        if((recipe.username === req.session.user.email)) return res.status(403).send("Forbidden");
+        var newRating = 0;
+        switch(req.body.action){
+            case ("incr"):
+                newRating = parseInt(recipe.rating) + 1;
+                // console.log("session", req.session.user.fav);
+                break;
+            case ("decr"):
+                if (recipe.rating > 0) {
+                    newRating = parseInt(recipe.rating) - 1;
+                }
+                // console.log("session", req.session.user.fav);
+                break;
+        }
+        recipes.update({ _id: recipeId }, { $set: { "rating": newRating } }, {}, function (e2, numReplaced) {});
+        return res.json(req.session.user);
+    });
+});
+
+
 
 app.use(function (req, res, next){
     console.log("HTTP Response", res.statusCode);

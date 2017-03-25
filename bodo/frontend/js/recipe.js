@@ -58,7 +58,7 @@
         var dateCreated = data.createdAt;
         dateCreated = dateCreated.substring(0, 10);
         $("#recipe-date").html(dateCreated);
-        $("#recipe-pic-placeholder").css("content", "url(/api/recipes/" + data._id + "/pic/)");
+        $("#recipe-pic-placeholder").css("background-image", "url(/api/recipes/" + data._id + "/pic/)");
 
         $("#recipe-intro-div").text(data.intro);
         $("#ing-div").text(data.ings);
@@ -68,7 +68,12 @@
         // console.log("==========");
         // console.log(data.tags);
         // console.log($("#recipe-tags"));
-        $("#recipe-rating-sp").text(data.rating);
+        doAjax("GET", "/recipe/fav/"+id, null, true, function(err, data2){
+          if (err) console.error(err);
+          else {
+            $("#recipe-rating-sp").text(data2);
+          }
+        });
         $("#recipe-ready-sp").text(data.ready);
 
 
@@ -86,6 +91,45 @@
         //get user's favourites and uploads
       });
   }
+
+  $("#recipe-rating").click(function(){
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    var hash = hashes[0].split('=');
+    var id = hash[1];
+
+    if ($("#recipe-rating-sp").text() == "Favourite this!") {
+      //add to user's fav
+      doAjax("PATCH", "/user/fav/" + id, {action: "fav"}, true, function(err, data){
+          if (err) {
+            console.error(err);
+          } else {
+            $("#recipe-rating-sp").text("Unfavourite");
+          }
+      });
+      //increase recipe rating
+      doAjax("PATCH", "/recipe/rating/" + id, {action: "incr"}, true, function(err, data){
+          if (err) console.error(err);
+          else ;
+      });
+    } else {
+
+      //remove from user's fav
+      doAjax("PATCH", "/user/fav/" + id, {action: "unfav"}, true, function(err, data){
+          if (err) console.error(err);
+          else {
+            $("#recipe-rating-sp").text("Favourite this!");
+          }
+      });
+      //decrease recipe rating
+      doAjax("PATCH", "/recipe/rating/" + id, {action: "decr"}, true, function(err, data){
+          if (err) console.error(err);
+          else ;
+      });
+      
+    }
+       
+
+  });
 
   $("#phone-form").submit(function(e){
     e.preventDefault();

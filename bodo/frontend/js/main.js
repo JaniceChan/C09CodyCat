@@ -196,28 +196,31 @@
         $("#top-recipes-msg").text("See what people liked the most...");
         var e;
         for (var i=0; i < recipes.length; i++) {
-          e = document.createElement('div');
-          e.className = "grid-item";
-          var dateCreated = recipes[i].createdAt;
-          dateCreated = dateCreated.substring(0, 10);
-          e.innerHTML = `
-                  <div class="wrap-article">
-                    <img alt=${recipes[i]._id} class="img-circle text-center" src="/api/recipes/${recipes[i]._id}/pic/">
-                    <p class="subtitle fancy">
-                      <span>${dateCreated}</span>
-                    </p>
-                    <a href="recipe.html?id=${recipes[i]._id}"">
-                      <h3 class="title">
-                        ${recipes[i].title}
-                      </h3>
-                    </a>
-                    <p class="content-blog">
-                      <span>Rating: ${recipes[i].rating}</span>
-                      <span>${recipes[i].intro}</span>
-                    </p>
-                  </div>`;
-          // add this element to the document
-          container.append(e);
+          if(recipes[i]._id != "__autoid__") {
+            e = document.createElement('div');
+            e.className = "grid-item";
+            var dateCreated = recipes[i].createdAt;
+            dateCreated = dateCreated.substring(0, 10);
+            e.innerHTML = `
+                    <div class="wrap-article">
+                      <img alt=${recipes[i]._id} class="img-circle text-center" src="/api/recipes/${recipes[i]._id}/pic/">
+                      <p class="subtitle fancy">
+                        <span>${dateCreated}</span>
+                      </p>
+                      <a href="recipe.html?id=${recipes[i]._id}"">
+                        <h3 class="title">
+                          ${recipes[i].title}
+                        </h3>
+                      </a>
+                      <p class="content-blog">
+                        <span>Rating: ${recipes[i].rating}</span>
+                        <span>${recipes[i].intro}</span>
+                      </p>
+                    </div>`;
+            // add this element to the document
+            container.append(e);
+          }
+
         }
       } else {
         $("#top-recipes-msg").text("No top recipes yet.");

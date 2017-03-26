@@ -29,7 +29,7 @@ var model = (function(){
         var keyValuePairs = document.cookie.split('; ');
         for(var i in keyValuePairs){
             var keyValue = keyValuePairs[i].split('=');
-            if(keyValue[0]=== 'username') return callback(null, keyValue[1]);
+            if(keyValue[0]=== 'username') return callback(null, decodeURIComponent(keyValue[1]));
         }
         return callback("No active user", null);
     };

@@ -45,3 +45,5 @@
   4. Enable HTTPS to prevent eavesdropping/spoofing 
   5. Validate & sanitize user inputs to prevent spoofing/cross-site scripting 
   6. Secure cookies to prevent mixed-content attacks 
+
+[![Deploy on Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)

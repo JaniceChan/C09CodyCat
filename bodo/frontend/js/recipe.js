@@ -23,6 +23,15 @@
   };
 
 
+  function getActiveUsername (callback){
+        var keyValuePairs = document.cookie.split('; ');
+        for(var i in keyValuePairs){
+            var keyValue = keyValuePairs[i].split('=');
+            if(keyValue[0]=== 'email') return callback(null, keyValue[1]);
+        }
+        return callback("No active user", null);
+    };
+
   $(window).on("load", function() { // makes sure the whole site is loaded
     //set recipe info
     // var vars = [], hash;
@@ -37,6 +46,7 @@
     // }
 
     getRecipeInfo(id);
+    loadComments(id, 0);
 
     //need another function in case id is provided
 
@@ -48,7 +58,7 @@
     $('.grid').masonry({
       itemSelector: '.grid-item'
       
-    });    
+    });
   });
 
   function getRecipeInfo(id) {
@@ -203,9 +213,121 @@
     }
   }
 
+  function showComment(comment, cmt_index, is_owner) {
+        var e = document.createElement('div');
+        e.className = "comment";
+        e.setAttribute("block_id", cmt_index);
+        var comment_author = comment.author;
+        var comment_content = comment.content;
+        var comment_time = comment.time;
+        if (is_owner){
+            e.innerHTML = `
+            <div class="comment_block">
+                <div class="cmt_author">User: ${comment_author}</div>
+            </div>
+            <div class="cmt_content">Comment: ${comment_content}</div>
+            <div class="cmt_time">${comment_time}</div>
+            <button class="comments_del_btn">Delete</button>`;
+        }
+        else{
+            e.innerHTML = `
+            <div class="comment_block">
+                <div class="cmt_author">User: ${comment_author}</div>
+            </div>
+            <div class="cmt_content">Comment: ${comment_content}</div>
+            <div class="cmt_time">${comment_time}</div>
+            <button class="comments_del_btn" style="display:none">Delete</button>`;
+        }
+        document.getElementById("contents").appendChild(e);
+        //set onclick for the delete button
+        var del_buttons = document.getElementsByClassName("comments_del_btn");
+        var i = del_buttons.length;
+        if(i > 0){
+            del_buttons[i - 1].onclick = function(e){
+                var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                var hash = hashes[0].split('=');
+                var id = hash[1];
+                doAjax("DELETE", "/api/recipes/" + id + "/comments/" + cmt_index + "/", null , true, function(err, response){
+                  if (err){
+                    console.log(err);
+                    return;
+                  }
+                  loadComments(id, cmt_index - 1);
+                });
+                
+            };
+        }
+    };
+
+  function loadComments(id, index) {
+    doAjax("GET", "/api/comments/" + id + "/", null , true, function(err, response){
+      if (err){
+        console.log(err);
+        return;
+      }
+      var comments = response.message.recipe_comments;
+      if (index < comments.length && index >= 0){
+        document.getElementById("contents").innerHTML = "";
+        getActiveUsername(function(err, response){
+          if(response){
+            console.log(response);
+            console.log(comments[index]);
+            if(comments[index].author === response){
+              showComment(comments[index], index, true);
+            }
+            else{
+              showComment(comments[index], index, false);
+            }
+          }
+        })
+        }            
+    });
+  }
+
+  $("#next_comments_btn").click(function(){
+    var old_index = document.getElementsByClassName("comment")[0].getAttribute("block_id");
+    var new_index = parseInt(old_index) + 1;
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    var hash = hashes[0].split('=');
+    var id = hash[1];
+    loadComments(id, new_index);
+  })
+
+  $("#prev_comments_btn").click(function(){
+    var old_index = document.getElementsByClassName("comment")[0].getAttribute("block_id");
+    var new_index = parseInt(old_index) - 1;
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    var hash = hashes[0].split('=');
+    var id = hash[1];
+    loadComments(id, new_index);
+  })
+
   $("#upload_form_img_file").change(function(){
       readURL(this);
   });
+
+  $("#comment-submit").click(function(){
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    var hash = hashes[0].split('=');
+    var id = hash[1];
+
+    var data = {};
+    data.content = document.getElementById("comment-input").innerHTML;
+    data.time = new Date().toUTCString();
+    getActiveUsername(function(err, response){
+          if(response){
+            data.author = response;
+            doAjax("PUT", "/api/comments/" + id + "/", data, true, function(err, response){
+            if(err){
+              alert(err);
+              window.location = "/index.html"
+            }
+            //load existing comments
+            loadComments(id, 0);
+          });
+          }
+        })
+  })
 
  
 

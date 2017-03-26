@@ -244,9 +244,17 @@
         var i = del_buttons.length;
         if(i > 0){
             del_buttons[i - 1].onclick = function(e){
-                var data = {};
-                data.index = cmt_index;
-                document.dispatchEvent(new CustomEvent("onDelCmtClick", {detail: data}));
+                var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                var hash = hashes[0].split('=');
+                var id = hash[1];
+                doAjax("DELETE", "/api/recipes/" + id + "/comments/" + cmt_index + "/", null , true, function(err, response){
+                  if (err){
+                    console.log(err);
+                    return;
+                  }
+                  loadComments(id, cmt_index - 1);
+                });
+                
             };
         }
     };

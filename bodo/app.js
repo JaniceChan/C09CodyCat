@@ -673,6 +673,34 @@ app.patch("/recipe/rating/:id", function(req, res, next) {
     });
 });
 
+//Delete comment
+app.delete("/api/recipes/:r_id/comments/:id/", function(req, res, next) {
+    if (!req.session.user) return res.status(403).send("Forbidden");
+    var id = parseInt(req.params.id);
+    var r_id = parseInt(req.params.r_id);
+    var recipe = null;
+    if(r_id){
+        comments.findOne({_id: r_id}, function(err, data){
+            if (err) {
+                res.status(409).json("Error in comments db");
+                return next();
+            }
+            if (!data){
+                res.status(404).json("No recipe with id: " + r_id);
+                return next();
+            }
+            recipe = data;
+            recipe.recipe_comments.splice(id, 1);
+            comments.update({_id:r_id}, recipe, {});
+            return next();
+        });
+    }
+    else{
+        res.status(400).json("The id must be an integer");
+        return next();
+    }
+});
+
 
 
 app.use(function (req, res, next){

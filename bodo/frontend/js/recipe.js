@@ -38,6 +38,7 @@
     var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
     var hash = hashes[0].split('=');
     var id = hash[1];
+    document.getElementById("comment_btns").style.display = "none";
     // for(var i = 0; i < hashes.length; i++)
     // {
     //     hash = hashes[i].split('=');
@@ -271,7 +272,9 @@
         return;
       }
       var comments = response.message.recipe_comments;
+      
       if (index < comments.length && index >= 0){
+        document.getElementById("comment_btns").style.display = "block";
         document.getElementById("contents").innerHTML = "";
         getActiveUsername(function(err, response){
           if(response){
@@ -285,7 +288,7 @@
             }
           }
         })
-        }            
+      }           
     });
   }
 

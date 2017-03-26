@@ -9,6 +9,16 @@
     <meta content="CSCC09 Project" name="Janice Chan & Jiaan Li">
     <!--Fav-->
     <link href="images/kitchen-kittens.png" rel="shortcut icon">
+
+    <!-- Main Quill library -->
+        <!-- Include the Quill library -->
+    <script src="https://cdn.quilljs.com/1.0.0/quill.js"></script>
+    <script src="//cdn.quilljs.com/1.2.2/quill.js"></script>
+    <script src="//cdn.quilljs.com/1.2.2/quill.min.js"></script>
+
+    <!-- Theme included stylesheets -->
+    <link href="//cdn.quilljs.com/1.2.2/quill.snow.css" rel="stylesheet">
+    <link href="//cdn.quilljs.com/1.2.2/quill.bubble.css" rel="stylesheet">
     
     <!--styles-->
     <link href="css/upload.css" rel="stylesheet">
@@ -82,6 +92,44 @@
       <span id="recipe-steps"></span>
       <h2>Tips</h2>
       <span id="tip-div" class="add-tip-div"></span>
+      
+      <h2>Leave a comment</h2>
+        <div id="comment-editor">
+          <p>Add your comment here</p>
+        </div>
+
+        <div id="comment-input"></div>
+        <button id="comment-submit" type="submit">Add comment</button>
+        <!-- Initialize Quill editor -->
+        <script>
+        var toolbarOptions = [
+      [{ header: [1, 2, false] }],
+      ['bold', 'italic', 'underline'],
+      [{ list: 'ordered' }, { list: 'bullet' }],
+      ['image', 'video']
+    ];
+
+          var editor = new Quill('#comment-editor', {
+            modules: { toolbar: toolbarOptions },
+            theme: 'snow'
+          });
+          document.getElementById("comment-input").innerHTML = document.querySelector(".ql-editor").innerHTML;
+          editor.on('text-change', function(){
+            document.getElementById("comment-input").innerHTML = document.querySelector(".ql-editor").innerHTML;
+            //console.log(document.querySelector(".ql-editor").innerHTML);
+          });
+          // console.log(editor.getContents());
+        </script>
+        <!--load existing comments-->
+        <div id="history_comment_div">
+        <h2>Comments</h2>
+        <div id="contents">
+        </div>
+        <div id="comment_btns">
+            <button class="btn" id="prev_comments_btn">Previous</button>
+            <button class="btn" id="next_comments_btn">Next</button>
+        </div>
+    </div>
 
       <!--FOOTER-->
       <footer>

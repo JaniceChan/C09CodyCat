@@ -203,9 +203,82 @@
     }
   }
 
+  function showComment(comment, cmt_index, is_owner) {
+        var e = document.createElement('div');
+        e.className = "comment";
+        e.setAttribute("block_id", cmt_index);
+        var comment_author = comment.author;
+        var comment_content = comment.content;
+        var comment_time = comment.time;
+        if (is_owner){
+            e.innerHTML = `
+            <div class="comment_block">
+                <div class="cmt_author">User: ${comment_author}</div>
+            </div>
+            <div class="cmt_content">Comment: ${comment_content}</div>
+            <div class="cmt_time">${comment_time}</div>
+            <button class="comments_del_btn">Delete</button>`;
+        }
+        else{
+            e.innerHTML = `
+            <div class="comment_block">
+                <div class="cmt_author">User: ${comment_author}</div>
+            </div>
+            <div class="cmt_content">Comment: ${comment_content}</div>
+            <div class="cmt_time">${comment_time}</div>
+            <button class="comments_del_btn" style="display:none">Delete</button>`;
+        }
+        document.getElementById("contents").appendChild(e);
+        //set onclick for the delete button
+        var del_buttons = document.getElementsByClassName("comments_del_btn");
+        var i = del_buttons.length;
+        if(i > 0){
+            del_buttons[i - 1].onclick = function(e){
+                var data = {};
+                data.index = cmt_index;
+                document.dispatchEvent(new CustomEvent("onDelCmtClick", {detail: data}));
+            };
+        }
+    };
+
+  function loadComments(id) {
+    doAjax("GET", "/api/comments/" + id + "/", null , true, function(err, response){
+      if (err){
+        console.log(err);
+        return;
+      }
+      var comments = response.message.recipe_comments;
+      document.getElementById("contents").innerHTML = "";
+      var i = 0;
+      //start_index = parseInt(start_index);
+      while (i < 10 && i < comments.length){
+        showComment(comments[i], i, true);
+        i++;
+        }            
+    });
+  }
+
   $("#upload_form_img_file").change(function(){
       readURL(this);
   });
+
+  $("#comment-submit").click(function(){
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    var hash = hashes[0].split('=');
+    var id = hash[1];
+
+    var data = {};
+    data.content = document.getElementById("comment-input").innerHTML;
+    data.time = new Date().toUTCString();
+    doAjax("PUT", "/api/comments/" + id + "/", data, true, function(err, response){
+      if(err){
+        alert(err);
+        window.location = "/index.html"
+      }
+      //load existing comments
+      loadComments(id);
+    });
+  })
 
  
 

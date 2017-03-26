@@ -128,6 +128,11 @@ var Recipe = function(recipe){
     //tags
 }
 
+var Comment = function(comment){
+        this.content = comment.content;
+        this.author = comment.author;
+};
+
 var checkPassword = function(user, password){
         var hash = crypto.createHmac('sha512', user.salt);
         hash.update(password);
@@ -394,22 +399,67 @@ app.put('/api/recipe/', upload.single("pic"), function(req, res, next) {
                 res.status(409).json("Error with recipe db");
                 return next();
             }
-            res.json(id);
+            //res.json(id);
         });
 
-        //populate recipe page
-
-
-        // comments.insert({_id:id, pic_comments:[]}, function(err, doc){
-        //         if (err) {
-        //             res.status(409).json("Error with comments db");
-        //             return next();
-        //         }
-        //         res.json({id: id});
-        //         return next();
-        //     });
+        comments.insert({_id:id, recipe_comments:[]}, function(err, doc){
+                if (err) {
+                    res.status(409).json("Error with comments db");
+                    return next();
+                }
+                res.json(id);
+                return next();
+            });
     })
 })
+
+
+//add comment
+app.put("/api/comments/:r_id/", function(req, res, next) {
+    if (!req.session.user) return res.status(403).send("Forbidden");
+    var r_id = parseInt(req.params.r_id);
+    var comment = new Comment(req.body);
+    comment.time = new Date().toUTCString();
+    console.log(comment);
+    var recipe = null;
+    comments.findOne({_id: r_id}, function(err, data){
+        if (err) {
+            res.status(409).json("Error in comments db");
+            return next();
+        }
+        if (!data){
+            res.status(404).json("No recipe with id: " + r_id);
+            return next();
+        }
+        recipe = data;
+        recipe.recipe_comments.unshift(comment);
+        comments.update({_id:r_id}, recipe, {});
+        res.json({"r_id": r_id});
+        return next();
+    });
+});
+
+//get comments by recipe id
+app.get("/api/comments/:id/", function(req, res, next) {
+    if (!req.session.user) return res.status(403).send("Forbidden");
+    var id = parseInt(req.params.id);
+    if (id){
+        comments.findOne({_id: id}, function(err, data){
+           if(err){
+               res.status(404).end("recipe with id: " + id + " does not exists");
+               return next();
+           }
+           if (data){
+               res.json({found: true, id: id, message: data});
+               return next();
+           } 
+        });
+    }
+    else{
+        res.status(400).json("Your input of id is not valid");
+        return next();
+    }
+});
 
 //upload recipe steps
 app.put('/api/recipe/steps', upload.any(), function(req, res, next) {

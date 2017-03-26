@@ -116,6 +116,7 @@ var User = function(user){
     this.address;
     this.image;
     this.fav;
+    this.numComments = 0;
 };
 
 var Recipe = function(recipe){
@@ -320,15 +321,20 @@ app.get("/recipe/fav/", function (req, res, next) {
         else {
             if(data.length < 6) {
                 var n2 = n - data.length;
+
                 recipesRemote.find({id: {$in: req.session.user.fav}}).sort({createdAt:-1}).limit(n).exec(function(err, data2){
                     var resData = data;
-                    data2.forEach(function(d) {                    
-                        var newData = {};
-                        newData._id = "s_" + d.id;
-                        newData.title = d.title;
-                        newData.imageUrl = d.image;
-                        newData.intro = d.summary;
-                        resData = resData.concat(newData);
+                    var uniqueIds = [];
+                    data2.forEach(function(d) {
+                        if(contains.call(uniqueIds, d.id) != true && d.summary != null) {
+                            uniqueIds.push(d.id);            
+                            var newData = {};
+                            newData._id = "s_" + d.id;
+                            newData.title = d.title;
+                            newData.imageUrl = d.image;
+                            newData.intro = d.summary;
+                            resData = resData.concat(newData);
+                        }
                     });
 
                     console.log("new data", resData);
@@ -357,8 +363,7 @@ app.get("/recipe/stats/:chartId", function (req, res, next) {
     if(req.params.chartId == "0") {
         stats.numFav = 0;
         stats.numUploads = 0;
-        // TODO: number of comments
-        stats.numComments = 0; 
+        stats.numComments = 0;
         var oneWeekAgo = new Date();
         oneWeekAgo.setDate(oneWeekAgo.getDate()-7);
         recipes.find({$and: [{username: req.session.user.email}, {createdAt: {$gte: oneWeekAgo}}] }, function(err, data){
@@ -367,6 +372,7 @@ app.get("/recipe/stats/:chartId", function (req, res, next) {
             users.findOne({email: req.session.user.email }, function(err, data2){
                 if (err) return res.status(404).end("Recipe does not exists");
                 stats.numFav += data2.fav.length;
+                stats.numComments += data2.numComments;
                 return res.json(stats);
             });
         });
@@ -508,12 +514,18 @@ app.put("/api/comments/:r_id/", function(req, res, next) {
     var r_id;
     if (req.params.r_id.charAt(0) == "s"){
         r_id = parseInt(req.params.r_id.split("_")[1]);
+    } else if (req.params.r_id == "new") {
+        recipes.findOne().sort({createdAt:-1}).exec(function(err, data){
+            r_id = data._id;
+        });
     } else {
         r_id = parseInt(req.params.r_id);
     }
     var comment = new Comment(req.body);
     comment.time = new Date().toUTCString();
-    console.log(comment);
+    users.findOne({ email: req.session.user.email }, function(err, doc) {
+        users.update({ email: req.session.user.email }, { $set: { "numComments": ++doc.numComments } }, {}, function (e2, numReplaced) {});
+    });
     var recipe = null;
     comments.findOne({_id: r_id}, function(err, data){
         if (err) {
@@ -794,6 +806,8 @@ app.patch("/user/fav/:id", function(req, res, next) {
             users.update({ email: req.session.user.email }, { $set: { "fav": req.session.user.fav } }, {}, function (e2, numReplaced) {});
             return res.json(req.session.user);
         });
+    } else if (req.params.id == "new") {
+        return res.status(403).send("Forbidden");
     } else {
         recipeId = parseInt(req.params.id);
         recipes.findOne({ _id: recipeId }).exec(function(e1, recipe) {
@@ -819,6 +833,9 @@ app.patch("/user/fav/:id", function(req, res, next) {
 app.patch("/recipe/rating/:id", function(req, res, next) {
     if (!req.session.user) return res.status(403).end("Forbidden");
     if (req.params.id.charAt(0) != "s"){
+        if(req.params.id == "new") {
+            return res.status(403).send("Forbidden");
+        }
         var recipeId = parseInt(req.params.id);
         recipes.findOne({ _id: recipeId }).exec(function(e1, recipe) {
             //do not allow users to vote on their own comment
@@ -850,10 +867,18 @@ app.delete("/api/recipes/:r_id/comments/:id/", function(req, res, next) {
     var r_id;
     if (req.params.r_id.charAt(0) == "s"){
         r_id = parseInt(req.params.r_id.split("_")[1]);
+    } else if (req.params.r_id == "new") {
+        recipes.findOne().sort({createdAt:-1}).limit(n).exec(function(err, data){
+            r_id = data._id;
+        });
     } else {
         r_id = parseInt(req.params.r_id);
     }
     var recipe = null;
+
+    users.findOne({ email: req.session.user.email }, function(err, doc) {
+        users.update({ email: req.session.user.email }, { $set: { "numComments": --doc.numComments } }, {}, function (e2, numReplaced) {});
+    });
     if(r_id){
         comments.findOne({_id: r_id}, function(err, data){
             if (err) {

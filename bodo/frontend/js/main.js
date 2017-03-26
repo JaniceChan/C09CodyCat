@@ -192,7 +192,7 @@
       var recipes = data;            
       var container = document.getElementById("top-fav-recipes");
       container.innerHTML = "";
-      if (recipes.length > 0 && recipes[0]._id != "__autoid__") {
+      if (recipes.length > 0 && recipes[0]._id != "__autoid__" && recipes[0] != 0) {
         $("#top-recipes-msg").text("See what people liked the most...");
         var e;
         for (var i=0; i < recipes.length; i++) {

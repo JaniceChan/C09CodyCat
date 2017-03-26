@@ -85,7 +85,7 @@
         var container = document.getElementById("top-recipes-img");
         var textContainer = document.getElementById("top-recipes");
         container.innerHTML = "";
-        if (recipes.length > 0 && recipes[0]._id != "__autoid__") {
+        if (recipes.length > 0 && recipes[0]._id != "__autoid__" && recipes[0] != 0) {
           // change the text on the side
           $("#top-recipes-txt").text("Browse from our delicious top recipes, rated by users just like you!");
           var e;

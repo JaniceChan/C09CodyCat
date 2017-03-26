@@ -46,6 +46,10 @@
     //     vars[hash[0]] = hash[1];
     // }
 
+    //if recipe is new, hide the comment section
+    if(id == "new") {
+      document.getElementById("comment-section").style.display = "none";
+    }
     getRecipeInfo(id);
     loadComments(id, 0);
 
@@ -77,7 +81,7 @@
 
         $("#recipe-intro-div").html(data.intro);
         //$("#ing-div").text(data.ings);
-        console.log(data.ings);
+        // console.log(data.ings);
         var q = data.ings.split(",");
         // console.log(q);
         var table = document.createElement('TABLE')
@@ -266,7 +270,8 @@
     };
 
   function loadComments(id, index) {
-    doAjax("GET", "/api/comments/" + id + "/", null , true, function(err, response){
+    if(id != "new"){
+      doAjax("GET", "/api/comments/" + id + "/", null , true, function(err, response){
       if (err){
         console.log(err);
         return;
@@ -290,6 +295,8 @@
         })
       }           
     });
+    }
+
   }
 
   $("#next_comments_btn").click(function(){

@@ -9,7 +9,8 @@
     $('.grid').masonry({
       itemSelector: '.grid-item'
       
-    });    
+    });
+
   });
 
 
@@ -64,6 +65,8 @@
 
     function inits() {
       initEvents();
+      //populate top recipes
+      topRecipes();
     }
 
     function initEvents() {
@@ -74,6 +77,45 @@
           toggleMenu();
         }
       } );
+    }
+
+    function topRecipes() {
+      $.get("https://localhost:3000/recipe/topFav", null, function(data){
+        var recipes = data;            
+        var container = document.getElementById("top-recipes-img");
+        var textContainer = document.getElementById("top-recipes");
+        container.innerHTML = "";
+        if (recipes.length > 0 && recipes[0]._id != "__autoid__") {
+          // change the text on the side
+          $("#top-recipes-txt").text("Browse from our delicious top recipes, rated by users just like you!");
+          var e;
+          var l;
+          for (var i=0; i < recipes.length; i++) {
+            if(recipes[i]._id != "__autoid__") {
+              e = document.createElement('li');
+              l = document.createElement("li");
+              l.innerHTML = recipes[i].username + "'s " + recipes[i].title;
+              textContainer.append(l);
+
+              e.className = "col-md-6";
+              e.innerHTML = `
+                    <a href="/api/recipes/${recipes[i]._id}/pic/"><img alt=${recipes[i]._id} src="/api/recipes/${recipes[i]._id}/pic/">
+                      <div class="decription-wrap">
+                        <div class="image-bg">
+                           <p class="desc">${recipes[i].title}</p>
+                        </div>
+
+                      </div>
+                    </a>`
+              // add this element to the document
+              container.append(e);
+            }
+
+          }
+        } else {
+          $("#top-recipes-txt").text("No top recipes yet.");
+        }
+      });
     }
 
     function toggleMenu() {

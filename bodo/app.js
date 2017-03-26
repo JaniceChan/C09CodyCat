@@ -277,7 +277,6 @@ app.get("/recipe/setup/:id", function (req, res, next) {
         var recipeId = parseInt(req.params.id);
         recipes.findOne({_id: recipeId}).exec(function(err, data){
             if (err) return res.status(404).end("Recipe:" + recipeId + " does not exists");
-            data.imageUrl = "/api/recipes/" + data._id + "/pic/";
             return res.json(data);
         });
     }
@@ -315,7 +314,6 @@ app.get("/recipe/fav/", function (req, res, next) {
 });
 
 app.get("/recipe/topFav/", function (req, res, next) {
-    if (!req.session.user) return res.status(403).send("Forbidden");
     var n = 6;
     //find info on recent 6 top fav recipes
     recipes.find().sort({rating:-1}).limit(n).exec(function(err, data){
@@ -451,6 +449,7 @@ app.put('/api/recipe/', upload.single("pic"), function(req, res, next) {
         var recipe = new Recipe(data);
         recipe._id = id;
         recipe.pic = pic;
+        recipe.imageUrl = "/api/recipes/" + id + "/pic/";
         //recipes.insert({_id: id, username:data.username, title:data.title, pic:pic, ings:data.ings, intro:data.intro, steps:data.steps, tip:data.tip}, function(err, doc) {
         recipes.insert(recipe, function(err, doc) {
             if (err) {
@@ -632,7 +631,6 @@ app.get("/api/users/:username/recipes/:id/", function(req, res, next) {
 });
 //get recipe pic
 app.get("/api/recipes/:id/pic/", function(req, res, next){
-    if (!req.session.user) return res.status(403).send("Forbidden");
     var id = parseInt(req.params.id);
     if (id){
         recipes.findOne({_id: id}, function(err, data){

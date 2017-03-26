@@ -189,6 +189,10 @@ table{
   display: none;
 }
 
+#comment-input{
+  display: none;
+}
+
 #comment-editor {
   max-height: 375px;
 }

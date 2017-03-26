@@ -65,15 +65,20 @@
      $.get("https://localhost:3000/recipe/setup/"+id,function(data){
         $("#recipe-user").html("By: " + data.username);
         $("#recipe-title").html(data.title);
-        var dateCreated = data.createdAt;
-        dateCreated = dateCreated.substring(0, 10);
-        $("#recipe-date").html(dateCreated);
-        $("#recipe-pic-placeholder").css("background-image", "url(/api/recipes/" + data._id + "/pic/)");
+        var dateCreated = "";
+        if(data.createdAt != null) {
+          dateCreated = data.createdAt;
+          dateCreated = dateCreated.substring(0, 10);
+        }
 
-        $("#recipe-intro-div").text(data.intro);
+        $("#recipe-date").html(dateCreated);
+        $("#recipe-pic-placeholder").css("background-image", "url(" + data.imageUrl + ")");
+
+        $("#recipe-intro-div").html(data.intro);
         //$("#ing-div").text(data.ings);
+        console.log(data.ings);
         var q = data.ings.split(",");
-        console.log(q);
+        // console.log(q);
         var table = document.createElement('TABLE')
         var tableBody = document.createElement('TBODY')
         table.border = '1'

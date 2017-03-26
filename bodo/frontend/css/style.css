@@ -917,7 +917,9 @@ ul.portfolio-image li .desc{
   position: relative;
 }
 /*-------------- e. blog -------------*/
-.grid {margin-top: 60px;}
+.grid {
+  margin-top: 60px;
+}
 .grid:after {
   content: '';
   display: block;
@@ -1318,6 +1320,75 @@ ul.portfolio-image li .desc{
   align-items: center;
 
 }
+
+#search-recipe-more {
+  display: none;
+}
+
+#search-recipe-more input[type=submit] {
+  border: 1px solid #2b2b2b !important;
+  color: #2b2b2b;
+  padding: 10px;
+  font-weight: 700;
+  letter-spacing: 0.9px;
+  text-transform: uppercase;
+  transition: 0.2s ease all;
+  -moz-transition: 0.2s ease all;
+  -webkit-transition: 0.2s ease all;
+}
+#search-recipe-more input[type=submit]:hover {
+  background: #2b2b2b;
+  color: #ffffff;
+}
+
+#search-recipe-more input {
+  font-size: 13px;
+  padding: 10px 10px 10px 5px;
+  display: block;
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #2b2b2b;
+  background: transparent;
+  color: #969696;
+  font-size: 13px;
+}
+#search-recipe-more input:focus {
+  outline: none;
+  border-bottom: none;
+}
+#search-recipe-more label {
+  color: #2b2b2b;
+  font-size: 14px;
+  font-weight: normal;
+  position: absolute;
+  pointer-events: none;
+  left: 5px;
+  top: 10px;
+  transition: 0.2s ease all;
+  -moz-transition: 0.2s ease all;
+  -webkit-transition: 0.2s ease all;
+}
+#search-recipe-more input:focus ~ label,
+
+#search-recipe-more .bar:before {
+  left: 50%;
+}
+#search-recipe-more .bar:after {
+  right: 50%;
+}
+#search-recipe-more input:focus ~ .bar:before,
+#search-recipe-more input:focus ~ .bar:after,
+
+#search-recipe-more .highlight {
+  position: absolute;
+  height: 60%;
+  width: 100%;
+  top: 25%;
+  left: 0;
+  pointer-events: none;
+  opacity: 0.5;
+}
+#search-recipe-more input:focus ~ .highlight,
 
 .recipe-subtitle {
   display: flex;

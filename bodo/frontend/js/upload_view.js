@@ -98,7 +98,7 @@ var upload_view = jQuery(document).ready(function(){
       data.ings = ings;
       data.steps = steps;
       data.tip = tip;
-      data.rating = rating;
+      data.rating = parseInt(rating);
       data.ready = ready;
       data.tags = tags;
       

@@ -22,6 +22,11 @@ var view = (function(){
     	document.dispatchEvent(new CustomEvent("searchRecipe", {'detail': queries}));
     };
 
+    document.getElementById("search-recipe-more").onsubmit = function(e) {
+        e.preventDefault();
+        window.location.replace("recipe-more.html");
+    };
+
     var view = {};
 
     view.buildRecipes = function (recipes){
@@ -33,7 +38,7 @@ var view = (function(){
             // create the message element
             //TODO: change to recipe pic
             var elem = document.createElement('li');
-            var imageSrc = "/api/recipes/" + recipe._id + "/pic/"
+            var imageSrc = "/api/recipes/" + recipe._id + "/pic/";
             elem.innerHTML = `
 			            <div class="col-md-4 col-sm-4 recipe-details wrap-card card">
 	                        <img width="120" height="120" src=${imageSrc}></img>
@@ -55,13 +60,10 @@ var view = (function(){
                 window.location.replace("recipe.html?id="+recipe._id);
             };
         });
-    	// console.log(recipes);
-        // var container = document.getElementsByClassName("comment");
-        // var top = container[0];
-        // var data = {};
-        // data.topId = top.id;
-        // data.delId = delComment;
-        // document.dispatchEvent(new CustomEvent("delCommentUpdated", {'detail': data}));
+    	
+        var searchMore = document.getElementById("search-recipe-more");
+        searchMore.style.display = "block";
+
     };
 
     return view;

@@ -59,10 +59,19 @@ var model = (function(){
 
     // get
     model.getRecipes = function(searchQuery){
-        doAjax("GET", "/api/home/search?q=" + searchQuery + "/", null, true, function(err, data){
+        doAjax("GET", "/api/home/search/local?q=" + searchQuery + "/", null, true, function(err, data){
             if (err) console.error(err);
             else {
                 document.dispatchEvent(new CustomEvent("buildSearchRecipes", {'detail': data}));
+            }
+        });
+
+    };
+
+    model.putRecipesRemote = function(searchQuery){
+        doAjax("PUT", "/api/home/search/remote?q=" + searchQuery + "/", null, true, function(err, data){
+            if (err) console.error(err);
+            else {
             }
         });
 

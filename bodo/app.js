@@ -5,6 +5,7 @@ var crypto = require('crypto');
 var bodyParser = require('body-parser');
 var multer  = require('multer');
 var fs = require('fs');
+var unirest = require('unirest');
 var https = require('https');
 var session = require('express-session');
 var expressValidator = require('express-validator');
@@ -24,7 +25,7 @@ var Datastore = require('nedb'),
 users = new Datastore({ filename: 'db/users.db', autoload: true, timestampData : true });
 recipes = new Datastore({ filename: 'db/recipes.db', autoload: true, timestampData : true });
 comments = new Datastore({ filename: 'db/comments.db', autoload: true, timestampData : true});
-
+recipesRemote = new Datastore({ filename: 'db/recipesRemote.db', autoload: true, timestampData : true });
 
 var smtpTransport = nodemailer.createTransport({
     service: "gmail",
@@ -34,6 +35,8 @@ var smtpTransport = nodemailer.createTransport({
         pass: "janice&jiaan"
     }
 });
+
+var mashapeKey = "asWtAEZsVwmshx0EJfINfaGwL71Sp12YdXRjsnoKht0QGYSDNx";
 
 app.use(function (req, res, next){
     console.log("HTTP request", req.method, req.url, req.body);
@@ -205,10 +208,71 @@ app.get("/recipe/setup/:id", function (req, res, next) {
             if (err) return res.status(404).end("Recipe does not exists");
             return res.json(data);
         });
+    } else if (req.params.id.charAt(0) == "s"){
+        var recipeId = parseInt(req.params.id.split("_")[1]);
+        console.log(recipeId);
+        recipesRemote.findOne({ id: recipeId }).exec(function(err, data){
+            if (err) return res.status(404).end("Recipe:" + recipeId + " does not exists");
+            var resData = {};
+            resData.username = "Spoonacular";
+            resData.title = data.title;
+            resData.createdAt = null;
+            resData._id = data.id;
+            resData.intro = data.summary;
+            // resData.steps = data.instructions;
+            var steps = "";
+
+            if(data.analyzedInstructions[0] != null) {
+                data.analyzedInstructions[0].steps.forEach(function(ai){
+                    steps += "<p><span><b>Step " + ai.number + ":</b>" + ai.step + "</span>";
+                    steps += "<span><b>Ingredients:</b></span>";
+                    ai.ingredients.forEach(function(ing){
+                        steps += "<span>" + ing.name + "</span>";
+                    });
+                    steps += "<span><b>Equipment:</b></span>";
+                    ai.equipment.forEach(function(eq){
+                        steps += "<span>" + eq.name + "</span>";
+                    });
+                    steps += "<span></span></p>";
+
+                });
+
+                resData.steps = steps;
+            } else {
+                resData.steps = data.instructions;
+            }
+
+
+            resData.tip = data.spoonacularSourceUrl;
+            resData.imageUrl = data.image;
+
+            var ings = "";
+            data.extendedIngredients.forEach(function(ei) {
+                ings += ei.name + "," + ei.amount + " " + ei.unit + ",";
+            });
+            ings = ings.substring(0, ings.length-1);
+            resData.ings = ings;
+
+            var tags = "";
+            data.cuisines.forEach(function(c) {
+                tags += c + ",";
+            });
+            data.dishTypes.forEach(function(d) {
+                tags += d + ",";
+            });
+            tags = tags.substring(0, tags.length-1);
+
+            resData.tags = tags;
+
+            resData.ready = data.readyInMinutes + " min";
+            return res.json(resData);
+        });
+
     } else {
         var recipeId = parseInt(req.params.id);
         recipes.findOne({_id: recipeId}).exec(function(err, data){
             if (err) return res.status(404).end("Recipe:" + recipeId + " does not exists");
+            data.imageUrl = "/api/recipes/" + data._id + "/pic/";
             return res.json(data);
         });
     }
@@ -313,7 +377,6 @@ app.get('/send',function(req,res){
         subject : req.query.subject,
         text : req.query.text
     }
-    console.log(mailOptions);
     smtpTransport.sendMail(mailOptions, function(error, response){
      if(error){
         res.end("error");
@@ -344,7 +407,6 @@ app.post('/profile/image', upload.single('image'), function (req, res, next) {
 app.get('/api/images/:username', function (req, res, next) {
     users.findOne({username: req.params.username }, function(err, data) {
         if (err) return res.status(404).end("Image:" + req.body.username + " does not exists");
-        // console.log(data);
         res.setHeader('Content-Type', data.image.mimetype);
         return res.sendFile(path.join(__dirname, data.image.path));
     });
@@ -380,14 +442,10 @@ app.put('/api/recipe/', upload.single("pic"), function(req, res, next) {
             return err;
         }
         var data = req.body;
-        //console.log(data);
-        //console.log(req.body);
-        // console.log(req.body.title);
         var pic = req.file;
         var recipe = new Recipe(data);
         recipe._id = id;
         recipe.pic = pic;
-        //console.log(recipe);
         //recipes.insert({_id: id, username:data.username, title:data.title, pic:pic, ings:data.ings, intro:data.intro, steps:data.steps, tip:data.tip}, function(err, doc) {
         recipes.insert(recipe, function(err, doc) {
             if (err) {
@@ -442,6 +500,58 @@ app.put('/api/recipe/steps', upload.any(), function(req, res, next) {
         //     });
     })
 })
+
+//upload recipe from remote to local db
+app.put("/api/home/search/remote", function(req, res, next) {
+    var searchStr = req.query.q.slice(0, -1).split(" ").join('+');
+    var n = 25;
+    recipesRemote.remove({ }, { multi: true }, function (err, numRemoved) {});
+    unirest.get("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/autocomplete?number=" + n + "&query="+searchStr)
+    .header("X-Mashape-Key", mashapeKey)
+    .header("Accept", "application/json")
+    .end(function (result) {
+        var recipeIds = "";
+        
+        result.body.forEach(function(recipe) {
+            recipeIds += recipe.id + "%2C";
+        });
+
+        recipeIds = recipeIds.slice(0, -3);
+        
+        //populate the recipesRemote db
+        unirest.get("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/informationBulk?ids=" + recipeIds + "&includeNutrition=false")
+        .header("X-Mashape-Key", mashapeKey)
+        .header("Accept", "application/json")
+        .end(function (result) {
+            //populate with new results
+            result.body.forEach(function(recipe) {
+                //populate the recipesRemote db
+                unirest.get("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/" + recipe.id + "/summary")
+                .header("X-Mashape-Key", mashapeKey)
+                .header("Accept", "application/json")
+                .end(function (result2) {
+                    recipesRemote.insert(recipe, function (err) {});
+                    recipesRemote.update({ id: recipe.id }, { $set: { summary: result2.body.summary } }, {}, function () {});
+                });
+
+            });
+            return res.json("done");
+        });
+
+    });
+
+    
+});
+
+app.get("/search/remote/:mode", function(req, res, next) {
+    if (!req.session.user) return res.status(403).send("Forbidden");
+    var mode = req.params.mode;
+    if (mode == "summary"){
+        recipesRemote.find({}, function (err, recipes) {
+            return res.json(recipes);
+        });
+    }
+});
 
 //get recipe by username and id
 //return recipe data
@@ -543,7 +653,7 @@ app.delete("/api/recipes/:id/", function(req, res, next){
 });
 
 // search
-app.get("/api/home/search/", function(req, res, next) {
+app.get("/api/home/search/local", function(req, res, next) {
     var searchStr = req.query.q.slice(0, -1).split(" ").join('|');
     var regex = new RegExp(searchStr, 'i');
     //limit to 9
@@ -555,8 +665,6 @@ app.get("/api/home/search/", function(req, res, next) {
         }
         return res.json(data);
     });
-
-
 
 });
 
@@ -585,12 +693,10 @@ app.patch("/user/fav/:id", function(req, res, next) {
         switch(req.body.action){
             case ("fav"):
                 req.session.user.fav.push(recipeId);
-                // console.log("session", req.session.user.fav);
                 break;
             case ("unfav"):
                 var index = req.session.user.fav.indexOf(recipeId);
                 req.session.user.fav.splice(index, 1);
-                // console.log("session", req.session.user.fav);
                 break;
         }
         users.update({ email: req.session.user.email }, { $set: { "fav": req.session.user.fav } }, {}, function (e2, numReplaced) {});
@@ -609,13 +715,11 @@ app.patch("/recipe/rating/:id", function(req, res, next) {
         switch(req.body.action){
             case ("incr"):
                 newRating = parseInt(recipe.rating) + 1;
-                // console.log("session", req.session.user.fav);
                 break;
             case ("decr"):
                 if (recipe.rating > 0) {
                     newRating = parseInt(recipe.rating) - 1;
                 }
-                // console.log("session", req.session.user.fav);
                 break;
         }
         recipes.update({ _id: recipeId }, { $set: { "rating": newRating } }, {}, function (e2, numReplaced) {});

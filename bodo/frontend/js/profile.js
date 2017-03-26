@@ -134,7 +134,7 @@
               e = document.createElement('li');
               e.innerHTML = `
                           <div id=${recipes[i]._id} class="col-md-4 col-sm-4 uploaded-recipe">
-                            <img class="icon" src="/api/recipes/${recipes[i]._id}/pic/" />
+                            <img class="icon" src=${recipes[i].imageUrl} />
                             <p class="head-sm">
                               ${recipes[i].title}
                             </p>

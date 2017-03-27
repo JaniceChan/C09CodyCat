@@ -235,7 +235,10 @@
             <div class="comment_block">
                 <div class="cmt_author">User: ${comment_author}</div>
             </div>
-            <div class="cmt_content">Comment: ${comment_content}</div>
+            <div class="cmt_content">
+            <span id="cmtct">
+            </span>
+            </div>
             <div class="cmt_time">${comment_time}</div>
             <button class="comments_del_btn">Delete</button>`;
         }
@@ -244,11 +247,14 @@
             <div class="comment_block">
                 <div class="cmt_author">User: ${comment_author}</div>
             </div>
-            <div class="cmt_content">Comment: ${comment_content}</div>
+            <div class="cmt_content">
+            <span id="cmtct">
+            </span></div>
             <div class="cmt_time">${comment_time}</div>
             <button class="comments_del_btn" style="display:none">Delete</button>`;
         }
         document.getElementById("contents").appendChild(e);
+        $("#cmtct").html(comment_content);
         //set onclick for the delete button
         var del_buttons = document.getElementsByClassName("comments_del_btn");
         var i = del_buttons.length;

@@ -17,7 +17,7 @@
 
     
     document.addEventListener("loadPage",function(e){
-        console.log(e);
+        //console.log(e);
         model.getRecipeSummary();
     });
 
@@ -47,7 +47,7 @@
     // });
 
     document.addEventListener("buildMoreSearchRecipes", function(e){
-        console.log(e);
+        //console.log(e);
         view.buildMoreRecipes(e.detail);
 
     });

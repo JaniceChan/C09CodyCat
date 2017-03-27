@@ -67,10 +67,16 @@ app.use(expressValidator({
 app.use(function(req, res, next){
     Object.keys(req.body).forEach(function(arg){
         switch(arg){
-            // case 'username':
-            //     req.checkBody(arg, 'invalid username').isAlpha();
-            //     break;
+            case 'username':
+                req.checkBody(arg, 'invalid username').isAlpha();
+                break;
             case 'password':
+                break;
+            case 'content':
+                req.sanitizeBody(arg).escape();
+                break;
+            case 'action':
+                req.checkBody(arg, 'invalid action').isAction();
                 break;
         }
     });
@@ -79,9 +85,12 @@ app.use(function(req, res, next){
             case 'id':
                 req.checkParams(arg, 'invalid id').isInt();
                 break;
-            // case 'username':
-            //     req.checkParams(arg, 'invalid username').isAlpha();
-            //     break;
+            case 'phoneNum':
+                req.checkParams(arg, 'invalid phoneNum').isInt();
+                break;
+            case 'username':
+                req.checkParams(arg, 'invalid username').isAlpha();
+                break;
         }
     });
     req.getValidationResult().then(function(result) {

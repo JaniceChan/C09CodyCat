@@ -40,7 +40,7 @@
     });
 
     document.addEventListener("buildSearchRecipes", function(e){
-        console.log(e);
+        //console.log(e);
         view.buildRecipes(e.detail);
     });
 

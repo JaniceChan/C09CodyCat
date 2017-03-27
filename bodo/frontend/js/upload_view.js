@@ -101,6 +101,11 @@ var upload_view = jQuery(document).ready(function(){
       data.rating = parseInt(rating);
       data.ready = ready;
       data.tags = tags;
+
+      if (!title || !pic || !intro || !ings || !ready || !tags || !tip) {
+          alert("Please fill all info");
+          return;
+      }
       
       document.dispatchEvent(new CustomEvent("onRecipeUpload",{detail: data}));
 

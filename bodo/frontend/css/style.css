@@ -1447,6 +1447,14 @@ ul.portfolio-image li .desc{
   display:block;
   margin: 0 auto;
   width: 500px;
+  height: 550px;
+}
+
+.center-div-upload
+{
+  display:block;
+  margin: 0 auto;
+  width: 500px;
   height: 300px;
 }
 

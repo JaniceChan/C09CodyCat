@@ -45,7 +45,7 @@
   });
 
   function getInfo() {
-      $.get("https://localhost:3000/profile/setup",function(data){
+      doAjax("GET", "/profile/setup", null, true, function(err, data){
         $("#name").html(data.username);
         $("#email").html(data.email);
 
@@ -211,7 +211,7 @@
     doAjax('POST', '/profile/image', imageForm, false, function(err, data){
       if (err) console.error(err);
       else  {
-        $.get("https://localhost:3000/profile/setup",function(data){
+        doAjax("GET", "profile/setup", null, true, function(err, data){
           if(data.image != null) {
             $("#user-image").attr("src", data.imageUrl);
           }

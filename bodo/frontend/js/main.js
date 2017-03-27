@@ -1,5 +1,28 @@
 (function($) {
   "use strict";
+
+    var doAjax = function (method, url, body, json, callback){
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function(e){
+        switch(this.readyState){
+             case (XMLHttpRequest.DONE):
+                if (this.status === 200) {
+                    if (json) return callback(null, JSON.parse(this.responseText));
+                    return callback(null, this.responseText);
+                }else{
+                    return callback(this.responseText, null);
+                }
+        }
+    };
+    xhttp.open(method, url, true);
+    if (json) {
+        xhttp.setRequestHeader('Content-Type', 'application/json');
+        xhttp.send((body) ? JSON.stringify(body) : null);
+    } else {
+        xhttp.send((body) ? body : null);
+    }
+  };
+
   $(window).on("load", function() { // makes sure the whole site is loaded
     //preloader
     $("#status").fadeOut(); // will first fade out the loading animation
@@ -171,7 +194,7 @@
         subject=$("#contact-name").val() + " " + $("#contact-subject").val();
         text=$("#contact-message").val();
         $("#form-messages").text("Sending E-mail...Please wait");
-        $.get("https://localhost:3000/send",{to:to,subject:subject,text:text},function(data){
+        $.get("/send",{to:to,subject:subject,text:text},function(data){
         if(data=="sent")
         {
             $("#form-messages").empty().html("Email is been sent at "+to+" . Thank you!");
@@ -185,10 +208,12 @@
   
   });
   });
+
+
   
     
   function topRecipes() {
-    $.get("https://localhost:3000/recipe/topFav", null, function(data){
+    doAjax("GET", "/recipe/topFav", null, true, function(err, data){
       var recipes = data;            
       var container = document.getElementById("top-fav-recipes");
       container.innerHTML = "";

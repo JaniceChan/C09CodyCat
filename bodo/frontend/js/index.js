@@ -44,6 +44,28 @@
 
     });
 
+    var doAjax = function (method, url, body, json, callback){
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function(e){
+          switch(this.readyState){
+               case (XMLHttpRequest.DONE):
+                  if (this.status === 200) {
+                      if (json) return callback(null, JSON.parse(this.responseText));
+                      return callback(null, this.responseText);
+                  }else{
+                      return callback(this.responseText, null);
+                  }
+          }
+      };
+      xhttp.open(method, url, true);
+      if (json) {
+          xhttp.setRequestHeader('Content-Type', 'application/json');
+          xhttp.send((body) ? JSON.stringify(body) : null);
+      } else {
+          xhttp.send((body) ? body : null);
+      }
+    };
+
     
     //scroll js
     smoothScroll.init({
@@ -80,43 +102,46 @@
     }
 
     function topRecipes() {
-      $.get("https://localhost:3000/recipe/topFav", null, function(data){
-        var recipes = data;            
-        var container = document.getElementById("top-recipes-img");
-        var textContainer = document.getElementById("top-recipes");
-        container.innerHTML = "";
-        if (recipes.length > 0 && recipes[0]._id != "__autoid__" && recipes[0] != 0) {
-          // change the text on the side
-          $("#top-recipes-txt").prepend("Browse from our delicious top recipes, rated by users just like you!");
-          var e;
-          var l;
-          for (var i=0; i < recipes.length; i++) {
-            if(recipes[i]._id != "__autoid__") {
-              e = document.createElement('li');
-              l = document.createElement("li");
-              l.innerHTML = recipes[i].username + "'s " + recipes[i].title;
-              console.log(l.innerHTML);
-              textContainer.append(l);
+      doAjax("GET", "/recipe/topFav", null, true, function(err, data){
+            if (err) console.error(err);
+            else {
+              var recipes = data;            
+              var container = document.getElementById("top-recipes-img");
+              var textContainer = document.getElementById("top-recipes");
+              container.innerHTML = "";
+              if (recipes.length > 0 && recipes[0]._id != "__autoid__" && recipes[0] != 0) {
+                // change the text on the side
+                $("#top-recipes-txt").prepend("Browse from our delicious top recipes, rated by users just like you!");
+                var e;
+                var l;
+                for (var i=0; i < recipes.length; i++) {
+                  if(recipes[i]._id != "__autoid__") {
+                    e = document.createElement('li');
+                    l = document.createElement("li");
+                    l.innerHTML = recipes[i].username + "'s " + recipes[i].title;
+                    textContainer.append(l);
 
-              e.className = "col-md-6";
-              e.innerHTML = `
-                    <a href="/api/recipes/${recipes[i]._id}/pic/"><img alt=${recipes[i]._id} src="/api/recipes/${recipes[i]._id}/pic/">
-                      <div class="decription-wrap">
-                        <div class="image-bg">
-                           <p class="desc">${recipes[i].title}</p>
-                        </div>
+                    e.className = "col-md-6";
+                    e.innerHTML = `
+                          <a href="/api/recipes/${recipes[i]._id}/pic/"><img alt=${recipes[i]._id} src="/api/recipes/${recipes[i]._id}/pic/">
+                            <div class="decription-wrap">
+                              <div class="image-bg">
+                                 <p class="desc">${recipes[i].title}</p>
+                              </div>
 
-                      </div>
-                    </a>`
-              // add this element to the document
-              container.append(e);
+                            </div>
+                          </a>`
+                    // add this element to the document
+                    container.append(e);
+                  }
+
+                }
+              } else {
+                $("#top-recipes-txt").text("No top recipes yet.");
+              }
             }
+        });
 
-          }
-        } else {
-          $("#top-recipes-txt").text("No top recipes yet.");
-        }
-      });
     }
 
     function toggleMenu() {

@@ -101,7 +101,7 @@
               </h3>
                 <canvas id="myUploads" width="600" height="300"></canvas>
                 <script>
-                  $.get("https://localhost:3000/recipe/stats/0", null, function(d){
+                  $.get("/recipe/stats/0", null, function(d){
                     var ctx = document.getElementById("myUploads");
                     var myChart = new Chart(ctx, {
                       type: 'bar',
@@ -143,7 +143,7 @@
             </h3>
             <canvas id="myRecipeOrigin" width="600" height="300"></canvas>
             <script>
-            $.get("https://localhost:3000/recipe/stats/1", null, function(d){
+            $.get("/recipe/stats/1", null, function(d){
               var ctx = document.getElementById("myRecipeOrigin");
               // console.log(d.rookie, d.junior, d.apprentice, d.senior, d.master);
               var data = {

@@ -907,6 +907,6 @@ app.use(function (req, res, next){
     console.log("HTTP Response", res.statusCode);
 });
 
-https.createServer(config, app).listen(3000, function () {
+https.createServer(config, app).listen(process.env.PORT || 3000, function () {
     console.log('HTTPS on port 3000');
 });

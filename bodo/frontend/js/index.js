@@ -87,7 +87,7 @@
         container.innerHTML = "";
         if (recipes.length > 0 && recipes[0]._id != "__autoid__" && recipes[0] != 0) {
           // change the text on the side
-          $("#top-recipes-txt").text("Browse from our delicious top recipes, rated by users just like you!");
+          $("#top-recipes-txt").prepend("Browse from our delicious top recipes, rated by users just like you!");
           var e;
           var l;
           for (var i=0; i < recipes.length; i++) {
@@ -95,6 +95,7 @@
               e = document.createElement('li');
               l = document.createElement("li");
               l.innerHTML = recipes[i].username + "'s " + recipes[i].title;
+              console.log(l.innerHTML);
               textContainer.append(l);
 
               e.className = "col-md-6";

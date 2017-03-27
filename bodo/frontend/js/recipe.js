@@ -67,7 +67,7 @@
   });
 
   function getRecipeInfo(id) {
-     $.get("https://localhost:3000/recipe/setup/"+id,function(data){
+    doAjax("GET", "/recipe/setup/"+id, null, true, function(err, data){
         $("#recipe-user").html("By: " + data.username);
         $("#recipe-title").html(data.title);
         var dateCreated = "";
@@ -81,9 +81,9 @@
 
         $("#recipe-intro-div").html(data.intro);
         //$("#ing-div").text(data.ings);
-        // console.log(data.ings);
+
         var q = data.ings.split(",");
-        // console.log(q);
+
         var table = document.createElement('TABLE')
         var tableBody = document.createElement('TBODY')
         table.border = '1'
@@ -198,7 +198,7 @@
     doAjax('POST', '/profile/image', imageForm, false, function(err, data){
       if (err) console.error(err);
       else  {
-        $.get("https://localhost:3000/profile/setup",function(data){
+        doAjax("GET", "/profile/setup", null, true, function(err, data){
           if(data.image != null) {
             $("#user-image").attr("src", data.imageUrl);
           }
@@ -283,8 +283,6 @@
         document.getElementById("contents").innerHTML = "";
         getActiveUsername(function(err, response){
           if(response){
-            console.log(response);
-            console.log(comments[index]);
             if(comments[index].author === response){
               showComment(comments[index], index, true);
             }

@@ -1,7 +1,8 @@
 # C09CodyCat
 # Our app url:
 https://cody-cat.herokuapp.com/index.html
-# Our youtube url:
+# Our youtube demo url:
+https://youtu.be/heJ6nPnYFSo
 
 1. **Project Title:**  
   Kitchen Kittens

@@ -8,6 +8,7 @@ https://youtu.be/heJ6nPnYFSo
   email: kitchen.kittens.c09@gmail.com  
   password: janice&jiaan  
 
+# Our Proposal:
 1. **Project Title:**  
   Kitchen Kittens
 2. **Team Members** 

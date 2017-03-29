@@ -4,6 +4,10 @@ https://cody-cat.herokuapp.com/index.html
 # Our youtube demo url:
 https://youtu.be/heJ6nPnYFSo
 
+# Our gmail account (to check functionality):
+email: kitchen.kittens.c09@gmail.com
+password: janice&jiaan
+
 1. **Project Title:**  
   Kitchen Kittens
 2. **Team Members** 

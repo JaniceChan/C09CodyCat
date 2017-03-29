@@ -1,4 +1,8 @@
 # C09CodyCat
+# Our app url:
+https://cody-cat.herokuapp.com/index.html
+# Our youtube url:
+
 1. **Project Title:**  
   Kitchen Kittens
 2. **Team Members** 
@@ -46,4 +50,3 @@
   5. Validate & sanitize user inputs to prevent spoofing/cross-site scripting 
   6. Secure cookies to prevent mixed-content attacks 
 
-[![Deploy on Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)

@@ -21,8 +21,8 @@ Please see [Documentation.md](Documentation.md)
 
 |Name|Repos|Utroid|
 |----|----|----|
-|Janice Chan|https://github.com/janicechan|chanja39|
-|Jiaan Li|https://github.com/chataignes|lijiaan|
+|Janice Chan|https://github.com/janicechan |chanja39|
+|Jiaan Li|https://github.com/chataignes |lijiaan|
 
 
 3. **Description of web application**

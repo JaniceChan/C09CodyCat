@@ -11,7 +11,7 @@ https://youtu.be/heJ6nPnYFSo
   password: janice&jiaan  
 
 # Our documentation:
-Please see Documentation.md
+Please see [Documentation.md](Documentation.md)
 
 # Our Proposal:
 1. **Project Title:**  

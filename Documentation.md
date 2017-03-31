@@ -1,4 +1,4 @@
-#Kitchen Kitten API documentation
+# Kitchen Kitten API documentation
 
 + Sign up user
   - Method: PUT

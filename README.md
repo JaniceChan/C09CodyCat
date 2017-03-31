@@ -1,12 +1,17 @@
 # C09CodyCat
+
 # Our app url:
 https://cody-cat.herokuapp.com/index.html
+
 # Our youtube demo url:
 https://youtu.be/heJ6nPnYFSo
 
 # Our gmail account (to check functionality):
   email: kitchen.kittens.c09@gmail.com  
   password: janice&jiaan  
+
+# Our documentation:
+Please see Documentation.md
 
 # Our Proposal:
 1. **Project Title:**  

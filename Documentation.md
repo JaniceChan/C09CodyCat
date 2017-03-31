@@ -5,13 +5,13 @@
   - Url: /api/users/
   - Request Content-Type: application/json
   - Request body: {"username": root, "email": root@gmail.com, "password": root}
-  - Status code: 200 upon success, 500 if error occurs, 409 if user exists
+  - Status code: 200 upon success, 500 Internal Server Error, 409 if user exists (Conflict)
   - Response: Content-Type: application/json
-  - Response body: {"username": root, "email": root@gmail.com, "password": root}
+  - Response body: {"username":"root","email":"root@gmail.com","salt":"1xEAULBEOmK1q+G9aCKalw==","saltedHash":"ZJNud0rppGagOsWl9nXwOlYePkrrM1rXbZnZ/cDzODysCLBL3NFfpDdKnfSHCql2Z4qn1WHvjlnXHqL+ozBwtw==","numComments":0,"fav":[],"_id":"cRpvFMuSU54z1uFu","createdAt":"2017-03-31T20:29:50.105Z","updatedAt":"2017-03-31T20:29:50.105Z"}
   
 
 ```
-  $ curl -k --verbose --request PUT --header 'Content-Type: application/json' --data '{"username": root, "email": root@gmail.com, "password": root}' https://localhost:3000/api/users/
+  $ curl -k --verbose --request PUT --header 'Content-Type: application/json' --data '{"username": "root", "email": "root@gmail.com", "password": "root"}' https://cody-cat.herokuapp.com/api/users/
 ```
 
 + Sign in user
@@ -19,13 +19,13 @@
   - Url: /api/signin/
   - Request Content-Type: application/json
   - Request body: {"email": root@gmail.com, "password": root}
-  - Status code: 200 upon success, 500 if error occurs, 401 if password doesn't match usename
+  - Status code: 200 upon success, 500 Internal Server Error, 401 if password doesn't match usename
   - Response: Content-Type: application/json
-  - Response body: {"email": root@gmail.com, "password": root}
+  - Response body: {"username":"root","email":"root@gmail.com","salt":"1xEAULBEOmK1q+G9aCKalw==","saltedHash":"ZJNud0rppGagOsWl9nXwOlYePkrrM1rXbZnZ/cDzODysCLBL3NFfpDdKnfSHCql2Z4qn1WHvjlnXHqL+ozBwtw==","numComments":0,"fav":[],"_id":"cRpvFMuSU54z1uFu","createdAt":"2017-03-31T20:29:50.105Z","updatedAt":"2017-03-31T20:29:50.105Z"}
   
 
 ```
-  $ curl -k --verbose --request POST --header 'Content-Type: application/json' --data '{"email": "root@gmail.com", "password": "root"}' -c cookie.txt https://localhost:3000/api/signin/
+  $ curl -k --verbose --request POST --header 'Content-Type: application/json' --data '{"email": "root@gmail.com", "password": "root"}' -c cookie.txt https://cody-cat.herokuapp.com/api/signin/
 ```
 
 + Sign out
